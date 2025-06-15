@@ -1,13 +1,13 @@
-#Nombre del proyecto: COOKTRACK
+# Nombre del proyecto: COOKTRACK
 
-#Grupo: Passione
+## Grupo: Passione
 
-#Miembros del grupo:
+## Miembros del grupo:
 	Santiago Maldonado 
 		samaldonado@unal.edu.co
 
 	Maicol Garzón Melo
-mgarzonm@unal.edu.co
+		mgarzonm@unal.edu.co
 
 	Jorge Isaac Alandete Diaz
 		jalandete@unal.edu.co
@@ -15,7 +15,7 @@ mgarzonm@unal.edu.co
 	Juan Esteban Medina Cardenas
 		jumedinaca@unal.edu.co
 
-#Descripción:
+## Descripción:
 
 El objetivo del proyecto es permitir a los usuarios planificar menús diarios, facilitando la organización de sus comidas y la administración de ingredientes y despensa. 
 
