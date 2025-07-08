@@ -112,7 +112,7 @@ $$ LANGUAGE plpgsql;
 CREATE TRIGGER trg_unique_recipe_name_per_user
 BEFORE INSERT OR UPDATE ON recipe_book_recipe
 FOR EACH ROW
-EXECUTE FUNCTION enforce_unique_recipe_name_per_user();
+EXECUTE FUNCTION check_unique_recipe_name_per_user();
 
 CREATE OR REPLACE FUNCTION create_post_on_public_recipe()
 RETURNS TRIGGER AS $$
