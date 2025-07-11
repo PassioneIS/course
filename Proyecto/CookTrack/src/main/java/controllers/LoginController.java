@@ -10,7 +10,6 @@ import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import models.User;
 import services.LoginService;
 
 public class LoginController {
@@ -54,8 +53,8 @@ public class LoginController {
         String username = usernameField.getText();
         String password = passwordField.getText();
 
-        User success = loginService.getUser(username, password);
-        if (success != null) {
+        boolean success = loginService.logIn(username, password);
+        if (success) {
             System.out.println("Login exitoso!");
 
 

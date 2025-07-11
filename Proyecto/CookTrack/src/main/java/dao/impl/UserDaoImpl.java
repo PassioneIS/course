@@ -2,7 +2,6 @@ package dao.impl;
 
 import dao.UserDao;
 import infrastructure.DataBaseConnection;
-import models.Ingredient;
 import models.User;
 import org.hibernate.Session;
 import org.hibernate.Transaction;

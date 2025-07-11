@@ -1,22 +1,27 @@
 package services;
 
-import dao.DAO;
 import dao.UserDao;
 import dao.impl.UserDaoImpl;
+import infrastructure.SessionManager;
 import models.User;
 
 public class LoginService {
     static UserDao userDao = new UserDaoImpl();
 
-    public User getUser(String username,String password){
+    public boolean logIn(String username,String password){
        User user = userDao.findByName(username);
        if (user != null && user.getPassword().equals(password)){
-           return user;
+           SessionManager.getInstance().login(user);
+           return true;
        };
-       return null;
+       return false;
     }
 
     public void registerUser(User user){
-        //TODO
+
+    }
+
+    public void logOut(){
+
     }
 }
