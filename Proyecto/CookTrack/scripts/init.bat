@@ -30,7 +30,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: Ejecutar schema.sql
 echo === Ejecutando schema.sql ===
-psql -U %pg_user% -d cooktrack_dev -f ./sql/init.sql
+psql -U %pg_user% -d cooktrack_dev -f ..\sql\init.sql
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Fallo al ejecutar schema.sql.
     exit /b 1
