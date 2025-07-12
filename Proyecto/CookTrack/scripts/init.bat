@@ -9,6 +9,9 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
+:: Moverse al directorio raíz del proyecto
+cd /d "%~dp0.."
+
 :: Pedir usuario
 set /p pg_user=Ingrese el usuario de PostgreSQL:
 
@@ -36,7 +39,7 @@ if %ERRORLEVEL% NEQ 0 (
 
 :: Ejecutar schema.sql
 echo === Ejecutando schema.sql ===
-psql -U %pg_user% -d cooktrack_dev -f ..\sql\init.sql
+psql -U %pg_user% -d cooktrack_dev -f sql\init.sql
 if %ERRORLEVEL% NEQ 0 (
     echo [ERROR] Fallo al ejecutar schema.sql.
     exit /b 1
