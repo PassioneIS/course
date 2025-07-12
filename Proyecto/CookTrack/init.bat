@@ -15,6 +15,12 @@ set /p pg_user=Ingrese el usuario de PostgreSQL:
 :: Pedir contraseña
 set /p pg_pass=Ingrese la contraseña de PostgreSQL:
 
+echo === Generando archivo hibernate.properties con credenciales ingresadas ===
+(
+echo hibernate.connection.username=%pg_user%
+echo hibernate.connection.password=%pg_pass%
+) > ./config/hibernate.properties
+
 :: Configurar variable de entorno temporal para psql
 set PGPASSWORD=%pg_pass%
 
