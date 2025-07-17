@@ -59,11 +59,14 @@ public class LoginController {
 
 
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
+                //FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/addRecipeView.fxml"));
                 Scene scene = new Scene(loader.load());
 
+                System.out.println("Nice.");
+
                 // Pasar datos al MainController si es necesario
-                MainController mainController = loader.getController();
+                //MainController mainController = loader.getController();  //Se comento esto
                 //mainController.setCurrentUser(user);
 
                 // Obtener el Stage actual y cambiar la escena
