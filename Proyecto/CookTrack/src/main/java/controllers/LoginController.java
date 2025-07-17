@@ -57,18 +57,15 @@ public class LoginController {
         if (success) {
             System.out.println("Login exitoso!");
 
-
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
                 Scene scene = new Scene(loader.load());
 
-                // Pasar datos al MainController si es necesario
-                MainController mainController = loader.getController();
-                //mainController.setCurrentUser(user);
-
                 // Obtener el Stage actual y cambiar la escena
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setMaximized(true);
                 stage.show();
 
             } catch (Exception e) {

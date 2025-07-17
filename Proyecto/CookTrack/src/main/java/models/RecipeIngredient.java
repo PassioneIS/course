@@ -1,6 +1,7 @@
 package models;
 
 import jakarta.persistence.*;
+import jakarta.transaction.TransactionScoped;
 
 @Entity
 @Table(name = "recipe_ingredient")
@@ -21,6 +22,10 @@ public class RecipeIngredient {
 
     @Column(name = "amount", nullable = false)
     private short amount;
+
+    //For shoppingListService
+    @Transient
+    private boolean isChecked;
 
     public RecipeIngredientId getId() {
         return id;
@@ -52,6 +57,14 @@ public class RecipeIngredient {
 
     public void setAmount(short amount) {
         this.amount = amount;
+    }
+
+    public boolean isChecked() {
+        return isChecked;
+    }
+
+    public void setChecked(boolean checked) {
+        isChecked = checked;
     }
 }
 

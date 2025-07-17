@@ -2,6 +2,8 @@ package models;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name = "calendar")
 public class Calendar {
@@ -14,8 +16,11 @@ public class Calendar {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(length = 31)
+    @Column(name = "name" ,length = 31)
     private String name;
+
+    @OneToMany(mappedBy = "calendar")
+    private List<CalendarRecipe> calendarRecipes;
 
     public Short getId() {
         return id;
