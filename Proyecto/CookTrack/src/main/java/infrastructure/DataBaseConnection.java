@@ -21,11 +21,11 @@ public class DataBaseConnection {
             try {
                 // Carga configuración desde hibernate.cfg.xml
                 Configuration configuration = new Configuration().configure("hibernate.cfg.xml");
-                //configuration.addProperties(new Properties() {{
-                //    try (InputStream input = new FileInputStream("config/hibernate.properties")) {
-                //        load(input);
-                //    }
-                //}});
+                configuration.addProperties(new Properties() {{
+                    try (InputStream input = new FileInputStream("config/hibernate.properties")) {
+                        load(input);
+                    }
+                }});
                 sessionFactory = configuration.buildSessionFactory();
             } catch (Throwable ex) {
                 System.err.println("Falló la creación del SessionFactory: " + ex);

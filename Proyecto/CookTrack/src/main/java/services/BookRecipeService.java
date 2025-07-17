@@ -1,7 +1,5 @@
 package services;
 
-import dao.interfaces.RecipeDao;
-import dao.impl.RecipeDaoImpl;
 import models.Recipe;
 import models.User;
 
