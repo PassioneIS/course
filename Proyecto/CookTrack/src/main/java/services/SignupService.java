@@ -4,6 +4,7 @@ import dao.interfaces.UserDao;
 import dao.impl.UserDaoImpl;
 import infrastructure.SessionManager;
 import models.User;
+import org.mindrot.jbcrypt.BCrypt;
 
 public class SignupService {
     static UserDao userDao = new UserDaoImpl();
@@ -12,8 +13,9 @@ public class SignupService {
         if(userExists(username) || !validPassword(password) || !passwordMatch(password, confirmPassword)){
             return false;
         }
+        String hashedPassword = BCrypt.hashpw(password, BCrypt.gensalt());
 
-        User newUser = new User(username, password);
+        User newUser = new User(username, hashedPassword);
         userDao.createUser(newUser);
         return true;
     }
@@ -30,6 +32,14 @@ public class SignupService {
 
     public boolean passwordMatch(String password, String confirmPassword){
         return password.equals(confirmPassword);
+    }
+
+    public void ensureAdminUser() {
+        if (!userExists("admin")) {
+            String hash = BCrypt.hashpw("admin", BCrypt.gensalt());
+            User admin = new User("admin", hash);
+            userDao.createUser(admin);
+        }
     }
 
 }
