@@ -51,6 +51,12 @@ public class MainController {
             changeScene("/views/RecipesViews/recipesView.fxml");
         });
 
+        feedServiceButtton.setOnAction(e->{
+            changeScene("/views/FeedView.fxml");
+        });
+
+        changeScene("/views/FeedView.fxml");
+
         logOutButton.setOnAction(e -> {
             SessionManager.getInstance().logout();
             logOut(e);
