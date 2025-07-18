@@ -6,6 +6,8 @@ import infrastructure.SessionManager;
 import models.RecipeIngredient;
 import models.RecipeIngredientId;
 import models.User;
+import org.hibernate.Session;
+
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -27,7 +29,8 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
 
     @Override
     public List<RecipeIngredient> getRecipeIngredientsByRangeOfDate(User user, LocalDateTime start, LocalDateTime end) {
-        return DataBaseConnection.getSession().createQuery("""
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            return session.createQuery("""
                 SELECT ri
                 from RecipeIngredient ri
                 join ri.recipe r
@@ -39,9 +42,13 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
                 where u.user_id = :userId and
                 cr.date BETWEEN :start AND :end
                 """,RecipeIngredient.class)
-                .setParameter("userId", SessionManager.getInstance().getCurrentUser().getId())
-                .setParameter("start", start)
-                .setParameter("end", end)
-                .getResultList();
+                    .setParameter("userId", SessionManager.getInstance().getCurrentUser().getId())
+                    .setParameter("start", start)
+                    .setParameter("end", end)
+                    .getResultList();
+        }catch (Exception e){
+            e.printStackTrace();
+            return List.of();
+        }
     }
 }

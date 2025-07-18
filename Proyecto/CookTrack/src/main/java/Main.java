@@ -31,7 +31,7 @@ public class Main extends Application {
             Task<Void> initTask = new Task<>() {
                 @Override
                 protected Void call() {
-                    DataBaseConnection.getSession(); //Cargar DB
+                    DataBaseConnection.getSessionFactory(); //Cargar DB
                     return null;
                 }
             };
