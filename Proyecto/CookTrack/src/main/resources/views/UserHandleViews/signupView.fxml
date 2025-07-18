@@ -7,11 +7,12 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane prefHeight="300.0" prefWidth="400.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.userHandleControllers.SignupController">
+<AnchorPane prefHeight="450.0" prefWidth="400.0" style="-fx-background-color: #f5f5f5;" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.userHandleControllers.SignupController">
 
    <children>
-      <VBox alignment="CENTER" layoutX="-7.0" maxHeight="300.0" maxWidth="300.0" minHeight="300.0" minWidth="300.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 30; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10,0,0,4);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
+      <VBox alignment="CENTER" layoutX="-7.0" maxHeight="400.0" maxWidth="400.0" minHeight="300.0" minWidth="300.0" spacing="15" style="-fx-background-color: #ffffff; -fx-padding: 30; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.1), 10,0,0,4);" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="-7.0" AnchorPane.rightAnchor="7.0" AnchorPane.topAnchor="0.0">
 
          <!-- Título -->
          <Label style="-fx-font-size: 20; -fx-font-weight: bold; -fx-text-fill: #333333;" text="Crear Usuario" />
@@ -19,16 +20,32 @@
          <!-- Usuario -->
          <Label style="-fx-font-size: 14; -fx-text-fill: #555555;" text="Usuario" />
          <TextField fx:id="usernameField" promptText="Ingresa tu usuario" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc; -fx-padding: 5;" />
+         <Label fx:id="invalidUserLabel" text="El nombre de usuario ya existe." textFill="RED" visible="false">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Label>
 
          <!-- Contraseña -->
          <Label style="-fx-font-size: 14; -fx-text-fill: #555555;" text="Contraseña" />
          <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc; -fx-padding: 5;" />
+         <Label fx:id="invalidPasswordLabel" lineSpacing="1.0" text="Mínimo 8 caracteres con mayúscula, minúscula y número." textFill="RED" textOverrun="WORD_ELLIPSIS" visible="false" wrapText="true">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Label>
+         <Label layoutX="175.0" layoutY="164.0" style="-fx-font-size: 14; -fx-text-fill: #555555;" text="Confirmar Contraseña" />
+         <PasswordField fx:id="confirmPasswordField" layoutX="40.0" layoutY="199.0" promptText="Confirma tu contraseña" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc; -fx-padding: 5;" />
+         <Label fx:id="invalidConfirmPasswordLabel" text="La contraseña no coincide." textFill="RED" visible="false">
+            <font>
+               <Font size="10.0" />
+            </font>
+         </Label>
          <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
             <children>
       
-               <!-- Botón de signin -->
-               <Button fx:id="createButton" style="-fx-background-color: #27A18C; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 5; -fx-padding: 8 16;" text="Crear Usuario" />
-               <!-- Botón de atrás -->
+               <!-- Botón de login -->
+               <Button fx:id="createButton" style="-fx-background-color: #27A18C; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 5; -fx-padding: 8 16;" text="Crear Usuario e Ingresar" />
                <Button fx:id="backButton" layoutX="122.0" layoutY="10.0" style="-fx-background-color: #b02727; -fx-text-fill: white; -fx-font-size: 14; -fx-background-radius: 5; -fx-padding: 8 16;" text="Atrás" />
             </children>
          </HBox>
