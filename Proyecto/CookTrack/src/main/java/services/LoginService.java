@@ -1,6 +1,6 @@
 package services;
 
-import dao.UserDao;
+import dao.interfaces.UserDao;
 import dao.impl.UserDaoImpl;
 import infrastructure.SessionManager;
 import models.User;

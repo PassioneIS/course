@@ -13,6 +13,9 @@ import java.util.List;
 import services.IngredientService;
 import models.Ingredient;
 
+import services.BookRecipeService;
+import models.Recipe;
+
 public class addRecipeControler {
 
     @FXML
@@ -36,7 +39,7 @@ public class addRecipeControler {
     @FXML
     private Button btnAddStep;
 
-    private final List<TextField> recipeSteps = new ArrayList<>();
+    private final List<TextField> recipeStepsList = new ArrayList<>();
 
     @FXML
     private VBox tagContainer;
@@ -67,7 +70,15 @@ public class addRecipeControler {
         });
 
         btnCreateRecipe.setOnAction(event -> {
-            onVerReceta(event);
+            boolean validRecipe = onValidRecipe(event);
+
+            if (validRecipe == true) {
+                System.out.println("La receta es valida");
+                onSaveRecipe(event);
+            }
+            else{
+                System.out.println("La receta NO es valida :c");
+            }
         });
 
     }
@@ -113,7 +124,7 @@ public class addRecipeControler {
         newStep.setPromptText("Ingrese el nuevo paso");
 
         stepContainer.getChildren().add(newStep);
-        recipeSteps.add(newStep);
+        recipeStepsList.add(newStep);
 
         System.out.println("Creado nuevo paso!");
     }
@@ -130,9 +141,67 @@ public class addRecipeControler {
     }
 
     @FXML
-    private void onVerReceta(Event event) {
+    private boolean onValidRecipe(Event event) {
 
-        List<Ingredient> ingredients = ingredientService.getIngredients();
+        boolean validRecipe;
+
+        try {
+
+            boolean validRecipeName = txtRecipeName.getText().length() > 0;
+
+            boolean validRecipeTime = Integer.valueOf(txtRecipeTime.getText()) >= 1;
+
+            boolean validRecipeIngredients = ingredientAmountList.size() >= 1;
+            for (int i = 0; i < ingredientList.size(); i++) {
+                if (ingredientList.get(i).getValue().toString().length() <= 0) {
+                    validRecipeIngredients = false;
+                }
+            }
+
+            boolean validRecipeIngredientsAmount = ingredientAmountList.size() >= 1;
+            for (int i = 0; i < ingredientAmountList.size(); i++) {
+                if (Integer.valueOf(ingredientAmountList.get(i).getText()) <= 0) {
+                    validRecipeIngredientsAmount = false;
+                }
+            }
+
+            boolean validRecipeSteps = recipeStepsList.size() >= 1;
+            for (int i = 0; i < recipeStepsList.size(); i++) {
+                if (recipeStepsList.get(i).getText().length() <= 0) {
+                    validRecipeIngredients = false;
+                }
+            }
+
+            boolean validRecipeTags = tagsList.size() >= 1;
+            for (int i = 0; i < tagsList.size(); i++) {
+                if (tagsList.get(i).getText().length() <= 0) {
+                    validRecipeTags = false;
+                }
+            }
+
+            validRecipe = validRecipeName &&
+                    validRecipeTime &&
+                    validRecipeIngredients &&
+                    validRecipeIngredientsAmount &&
+                    validRecipeSteps &&
+                    validRecipeTags;
+
+            return validRecipe;
+
+        }
+        catch (java.lang.Exception ex) {
+            System.err.println("Dilijenciar todos campos del formulario y hacerlo correctamente: " + ex);
+
+            validRecipe = false;
+
+            return validRecipe;
+
+        }
+
+    }
+
+    @FXML
+    private void onSaveRecipe(Event event) {
 
         String recipeName = txtRecipeName.getText();
         System.out.println("Nombre de la receta:" + recipeName );
@@ -140,57 +209,53 @@ public class addRecipeControler {
         Integer recipeTime = Integer.valueOf( txtRecipeTime.getText() );
         System.out.println("Tiempo de preparacion:" + recipeTime );
 
-        List<Integer> listIngredientsId = new ArrayList<>();
-        List<Integer> listIngredientsAmount = new ArrayList<>();
-
         System.out.println("Ingredientes");
 
+        List<Ingredient> listIngredients = new ArrayList<>();
+        List<Short> listIngredientsAmount = new ArrayList<>();
+
         for(int i=0; i < ingredientList.size(); i++){
+            String ingredientName = ingredientList.get(i).getValue().toString();
+            Ingredient ingredient = ingredientService.getIngredientByName(ingredientName);
+            System.out.println("    Ingrediente:" + ingredient.toString());
+            listIngredients.add(ingredient);
 
-            String ingredient = ingredientList.get(i).getValue().toString();
-            System.out.println("    Ingrediente:" + ingredient);
-
-            Integer ingredientAmount = Integer.valueOf(ingredientAmountList.get(i).getText());
-            listIngredientsAmount.add(ingredientAmount);
+            short ingredientAmount = Short.valueOf(ingredientAmountList.get(i).getText());
             System.out.println("        Cantidad:" + ingredientAmount);
-
-            int nonValidId = -1;
-            int ingredientId = nonValidId;
-
-            for(int j=0; j < ingredients.size(); j++){
-                if(ingredients.get(j).toString() == ingredient){
-                    ingredientId = ingredients.get(j).getId();
-                }
-            }
-
-            listIngredientsId.add(ingredientId);
-            System.out.println("        Ingrediente ID:" + ingredientId );
+            listIngredientsAmount.add((short)ingredientAmount);
 
         }
 
         System.out.println("Pasos");
+        List<String> listSteps = new ArrayList<>();
 
-        for(int i=0; i < recipeSteps.size(); i++){
-            System.out.println("    Paso position:" + i);
+        for(int i=0; i < recipeStepsList.size(); i++){
+            System.out.println("    Paso posición:" + i);
 
-            String step = recipeSteps.get(i).getText();
+            String step = recipeStepsList.get(i).getText();
             System.out.println("    Paso:" + step);
+            listSteps.add(step);
         }
 
         System.out.println("Tags");
+        List<String> listTags = new ArrayList<>();
 
         for(int i=0; i < tagsList.size(); i++){
 
             String tag = tagsList.get(i).getText();
             System.out.println("    Tag:" + tag);
+            listTags.add(tag);
         }
 
-        //Creacion de las entidades a subir
+        //Creacion de los modelos
 
-        //Recipe recipe = new recipe;
-        //recipe.setName(txtRecipeName.getText());
+        BookRecipeService bookRecipeService = new BookRecipeService();
 
-        //recipe.setPreptime(  )
+        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listTags);
+
+
+
+        //(String name, Integer prepTime, List<Ingredient> ingredientsList, List<Short> listIngredientsAmount, List<String> stepsList)
 
     }
 

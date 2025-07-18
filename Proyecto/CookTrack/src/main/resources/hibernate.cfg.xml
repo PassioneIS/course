@@ -29,6 +29,9 @@
         <mapping class="models.RecipeBook"/>
         <mapping class="models.RecipeStep"/>
         <mapping class="models.User"/>
+        <mapping class="models.RecipeIngredient"/>
+        <mapping class="models.CalendarRecipe"/>
+        <mapping class="models.RecipeBookRecipe"/>
 
     </session-factory>
 </hibernate-configuration>

@@ -1,5 +1,7 @@
 import controllers.LoginController;
+import infrastructure.DataBaseConnection;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -11,20 +13,56 @@ public class Main extends Application {
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
-        showLogin();
+
+        showLoadingScreen();
+    }
+
+    private void showLoadingScreen() {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loading.fxml"));
+            Scene splashScene = new Scene(loader.load());
+
+            primaryStage.setTitle("CookTrack");
+            primaryStage.setScene(splashScene);
+            primaryStage.centerOnScreen();
+            primaryStage.show();
+
+            // Inicializa Hibernate
+            Task<Void> initTask = new Task<>() {
+                @Override
+                protected Void call() {
+                    DataBaseConnection.getSession(); //Cargar DB
+
+                    System.out.println("Llamada get Sesion");
+
+                    return null;
+                }
+            };
+
+            initTask.setOnSucceeded(e -> showLogin());
+
+            new Thread(initTask).start();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void showLogin() {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loginView.fxml"));
             Scene scene = new Scene(loader.load());
-            //LoginController loginController = loader.getController();
 
-            primaryStage.setTitle("CookTrack");
             primaryStage.setScene(scene);
+            primaryStage.centerOnScreen();
             primaryStage.show();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
     }
 }

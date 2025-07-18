@@ -3,16 +3,20 @@ package dao.impl;
 import dao.interfaces.IngredientDao;
 import infrastructure.DataBaseConnection;
 import models.Ingredient;
-
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
 
-public class IngredientDaoImpl implements IngredientDao {
+public class IngredientDaoImpl extends DaoImpl<Ingredient,Integer> implements IngredientDao{
 
-    static Session session = DataBaseConnection.getSession();
+    public IngredientDaoImpl() {
+        super(Ingredient.class);
+    }
+
+    //static Session session = DataBaseConnection.getSession();
+
 
     @Override
     public void save(Ingredient ingredient){
@@ -25,9 +29,20 @@ public class IngredientDaoImpl implements IngredientDao {
     }
 
     @Override
+    public Ingredient findByName(String name) {
+        try (Session session = DataBaseConnection.getSession()){
+            Query<Ingredient> query = session.createQuery("FROM Ingredient WHERE name = :name", Ingredient.class);
+            query.setParameter("name", name);
+            return query.uniqueResult();
+        }
+    }
+
+    @Override
     public List<Ingredient> findAll(){
-        Query<Ingredient> query = session.createQuery("FROM Ingredient", Ingredient.class);
-        return query.list();
+        try (Session session = DataBaseConnection.getSession()) {
+            Query<Ingredient> query = session.createQuery("FROM Ingredient", Ingredient.class);
+            return query.list();
+        }
     }
 
     public void update(Ingredient entity){
