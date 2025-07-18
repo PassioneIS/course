@@ -45,15 +45,8 @@ if %ERRORLEVEL% NEQ 0 (
     exit /b 1
 )
 
-:: Insertar usuario admin:admin si no existe
-echo === Creando usuario admin si no existe ===
-psql -U %pg_user% -d cooktrack_dev -tc "SELECT 1 FROM users WHERE name = 'admin'" | findstr 1 > nul
-if %ERRORLEVEL% NEQ 0 (
-    psql -U %pg_user% -d cooktrack_dev -c "INSERT INTO users(name, password) VALUES ('admin', 'admin');"
-    echo Usuario admin creado con contraseña admin.
-) else (
-    echo El usuario admin ya existe.
-)
+echo === Borrando usuario admin (si existe) ===
+psql -U %pg_user% -d cooktrack_dev -c "DELETE FROM users WHERE name = 'admin';"
 
 :: Limpiar variable de entorno
 set PGPASSWORD=

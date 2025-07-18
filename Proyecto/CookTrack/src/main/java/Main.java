@@ -5,15 +5,19 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.SignupService;
 
 public class Main extends Application {
 
     private Stage primaryStage;
 
+    private final SignupService signupService = new SignupService();
+
     @Override
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
+        signupService.ensureAdminUser();
         showLoadingScreen();
     }
 
@@ -62,4 +66,5 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
+
 }

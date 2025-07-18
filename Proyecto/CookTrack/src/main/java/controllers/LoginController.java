@@ -23,6 +23,9 @@ public class LoginController {
     @FXML
     private Button loginButton;
 
+    @FXML
+    private Button createButton;
+
     private final LoginService loginService = new LoginService();
 
     @FXML
@@ -43,6 +46,10 @@ public class LoginController {
 
         loginButton.setOnAction(event -> {
             handleLogin(event);
+        });
+
+        createButton.setOnAction(event -> {
+            openSignUpScene(event);
         });
     }
 
@@ -75,5 +82,24 @@ public class LoginController {
         } else {
             System.out.println("Usuario o contraseña incorrectos.");
         }
+    }
+
+    @FXML
+    private void openSignUpScene(Event event) {
+        System.out.println("LoginController: openSignUpScene()");
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserHandleViews/signupView.fxml"));
+                Scene scene = new Scene(loader.load());
+
+                // Obtener el Stage actual y cambiar la escena
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 }

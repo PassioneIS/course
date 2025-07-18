@@ -22,4 +22,12 @@ public class UserDaoImpl extends DaoImpl<User,Integer> implements UserDao{
             return null;
         }
     }
+
+    @Override
+    public void createUser(User user) {
+        Session session = DataBaseConnection.getSession();
+        session.beginTransaction();
+        session.persist(user);
+        session.getTransaction().commit();
+    }
 }
