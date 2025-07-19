@@ -12,6 +12,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 public class MainController {
     @FXML
@@ -32,17 +34,20 @@ public class MainController {
     @FXML
     private Button logOutButton;
 
+    //To store loaded views
+    private Map<String, Parent> loadedViews = new HashMap<>();
+
     @FXML
     public void initialize(){
 
         welcomeLabel.setText("Bienvenido " + SessionManager.getInstance().getCurrentUser().getName());
 
         shoppingListServiceButton.setOnAction(e->{
-            changeScene("/views/ShoppingListViews/shoppingList.fxml");
+            goToShoppinListService();
         });
 
         recipeServiceButton.setOnAction(e->{
-            changeScene("/views/addRecipeView.fxml");
+            changeScene("/views/RecipesViews/recipesView.fxml");
         });
 
         logOutButton.setOnAction(e->{
@@ -50,10 +55,17 @@ public class MainController {
             logOut(e);
         });
     }
+
     public void changeScene(String fxml) {
         try {
-            Parent vista = FXMLLoader.load(getClass().getResource(fxml));
-            mainScene.setCenter(vista);
+            Parent view;
+            if (loadedViews.containsKey(fxml)) {
+                view = loadedViews.get(fxml);
+            } else {
+                view = FXMLLoader.load(getClass().getResource(fxml));
+                loadedViews.put(fxml, view);
+            }
+            mainScene.setCenter(view);
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -74,5 +86,9 @@ public class MainController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    private void goToShoppinListService(){
+        changeScene("/views/ShoppingListViews/shoppingList.fxml");
     }
 }

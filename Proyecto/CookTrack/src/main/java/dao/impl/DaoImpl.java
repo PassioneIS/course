@@ -18,7 +18,7 @@ public class DaoImpl<T, ID extends Serializable> implements DAO<T, ID> {
     @Override
     public void save(T entity) {
         Transaction tx = null;
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.persist(entity);
             tx.commit();
@@ -30,14 +30,14 @@ public class DaoImpl<T, ID extends Serializable> implements DAO<T, ID> {
 
     @Override
     public T findById(ID id) {
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             return session.find(entityType, id);
         }
     }
 
     @Override
     public List<T> findAll() {
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             return session.createQuery("FROM " + entityType.getName(), entityType).getResultList();
         }
     }
@@ -45,7 +45,7 @@ public class DaoImpl<T, ID extends Serializable> implements DAO<T, ID> {
     @Override
     public void update(T entity) {
         Transaction tx = null;
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.merge(entity);
             tx.commit();
@@ -58,7 +58,7 @@ public class DaoImpl<T, ID extends Serializable> implements DAO<T, ID> {
     @Override
     public void delete(T entity) {
         Transaction tx = null;
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             tx = session.beginTransaction();
             session.remove(entity);
             tx.commit();

@@ -16,9 +16,11 @@ import java.util.List;
 public interface RecipeIngredientDao extends DAO<RecipeIngredient, RecipeIngredientId> {
 
     RecipeIngredient createRecipeIngredient(Recipe recipe, Ingredient ingredient, short Amount);
-    void Save(RecipeIngredient recipeIngredient);
+    void save(RecipeIngredient recipeIngredient);
     List<RecipeIngredient> findByRecipeId(int recipeId);
     List<RecipeIngredient> findByIngredientId(int ingredientId);
 
+    List<RecipeIngredient> findRecipeIngredientByRecipeId(Recipe recipe);
     List<RecipeIngredient> getRecipeIngredientsByRangeOfDate(User user, LocalDateTime start, LocalDateTime end);
+
 }

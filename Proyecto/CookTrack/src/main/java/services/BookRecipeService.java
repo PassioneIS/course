@@ -32,22 +32,11 @@ public class BookRecipeService {
 
             RecipeIngredientDaoImpl recipeIngredientDao = new RecipeIngredientDaoImpl();
 
-            System.out.println("Ejecucion:" + i);
-
             short amount = listIngredientsAmount.get(i);
             Ingredient ingredientOfList = ingredientsList.get(i);
 
-            System.out.println("Ejecucion 2:" + i);
-
             RecipeIngredient recipeIngredient = recipeIngredientDao.createRecipeIngredient(recipe, ingredientOfList, amount);
-
-            System.out.println("Ejecucion 3:" + i);
-
             recipeIngredientDao.save(recipeIngredient);
-
-            System.out.println("Ejecucion 4:" + i);
-
-
 
         }
 
@@ -62,6 +51,13 @@ public class BookRecipeService {
 
         //System.out.println("Creacion de la receta:"+ name + " prepTime: " + prepTime + "ingrediets:" + ingredientsList + " ,ingredients amount " + listIngredientsAmount + " , pasos:" + stepsList);
 
+    }
+
+    public List<Recipe> getAllRecipes(){
+
+        RecipeDaoImpl recipeDao = new RecipeDaoImpl();
+        List<Recipe> recipesList = recipeDao.findAll();
+        return recipesList;
     }
 
     public void addRecipe(Recipe recipe){

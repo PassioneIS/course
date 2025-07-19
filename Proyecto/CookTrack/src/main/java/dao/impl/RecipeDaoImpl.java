@@ -28,16 +28,18 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
 
     @Override
     public void save(Recipe recipe) {
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
 
             System.out.println("Persistiendo: " + recipe);
 
             session.persist(recipe);
             transaction.commit();
+
+            System.out.println("Se guardo el la receta:" + recipe);
         }
         catch (Exception e) {
-            System.err.println("Error al guardar RecipeIngredient:");
+            System.err.println("Error al guardar la Receta:" + recipe);
             e.printStackTrace();
         }
     }
@@ -50,7 +52,7 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
 
     @Override
     public Recipe findById(Integer integer) {
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<Recipe> query = session.createQuery("FROM Recipe WHERE id = :integer", Recipe.class);
             query.setParameter("id", integer);
             return query.uniqueResult();
@@ -64,7 +66,7 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
 
     @Override
     public List<Recipe> findAll(){
-        try (Session session = DataBaseConnection.getSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<Recipe> query = session.createQuery("FROM Recipe", Recipe.class);
             return query.list();
         }

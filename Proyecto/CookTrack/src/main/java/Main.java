@@ -5,10 +5,13 @@ import javafx.concurrent.Task;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import services.SignupService;
 
 public class Main extends Application {
 
     private Stage primaryStage;
+
+    private final SignupService signupService = new SignupService();
 
     @Override
     public void start(Stage primaryStage) {
@@ -31,10 +34,7 @@ public class Main extends Application {
             Task<Void> initTask = new Task<>() {
                 @Override
                 protected Void call() {
-                    DataBaseConnection.getSession(); //Cargar DB
-
-                    System.out.println("Llamada get Sesion");
-
+                    DataBaseConnection.getSessionFactory().openSession(); //Cargar DB
                     return null;
                 }
             };

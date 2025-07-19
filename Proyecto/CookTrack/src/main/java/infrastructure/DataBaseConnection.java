@@ -16,7 +16,7 @@ public class DataBaseConnection {
     private DataBaseConnection() {}
 
     // Método para obtener la instancia de SessionFactory
-    private static SessionFactory getSessionFactory() {
+    public static SessionFactory getSessionFactory() {
         if (sessionFactory == null) {
             try {
 
@@ -39,18 +39,6 @@ public class DataBaseConnection {
             }
         }
         return sessionFactory;
-    }
-
-    // Método auxiliar para obtener una Session
-    public static Session getSession() {
-        return getSessionFactory().openSession();
-    }
-
-    // Método para cerrar SessionFactory al finalizar la aplicación
-    public static void shutdown() {
-        if (sessionFactory != null) {
-            sessionFactory.close();
-        }
     }
 
 }

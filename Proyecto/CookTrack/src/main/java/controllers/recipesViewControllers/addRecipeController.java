@@ -1,4 +1,4 @@
-package controllers;
+package controllers.recipesViewControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.layout.VBox;
@@ -16,7 +16,7 @@ import models.Ingredient;
 import services.BookRecipeService;
 import models.Recipe;
 
-public class addRecipeControler {
+public class addRecipeController {
 
     @FXML
     private TextField txtRecipeName;
@@ -251,7 +251,7 @@ public class addRecipeControler {
 
         BookRecipeService bookRecipeService = new BookRecipeService();
 
-        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listTags);
+        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listSteps);
 
 
 
