@@ -91,6 +91,11 @@ public class SignupController {
             hasErrors = true;
         }
 
+        if (!signupService.validUsername(username)) {
+            invalidUserLabel.setVisible(true);
+            hasErrors = true;
+        }
+
         if (!signupService.validPassword(password)) {
             invalidPasswordLabel.setVisible(true);
             hasErrors = true;
