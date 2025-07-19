@@ -42,13 +42,24 @@ public class AddIngredientController {
     private void handleAdd() {
         ingredient = ingredientComboBox.getValue();
 
-        if (amountField.getText() != null && !amountField.getText().isEmpty()) {
+        if (ingredient == null) {
+            System.out.println("Ingredient is null");
+            return;
+        }
+
+        if (!amountField.getText().isEmpty()) {
             try {
                 amount = Short.parseShort(amountField.getText());
             } catch (NumberFormatException e) {
                 amount = null; // No es un short válido
             }
+        }else{
+            //Return
+            System.out.println("amount is null");
+            return;
         }
+
+
 
         // Cierra la ventana
         Stage stage = (Stage) ingredientComboBox.getScene().getWindow();
@@ -80,7 +91,7 @@ public class AddIngredientController {
             }
         });
 
-        //Configurar que se muestra
+        //Configurar que se muestra del objeto
         ingredientComboBox.setConverter(new StringConverter<Ingredient>() {
             @Override
             public String toString(Ingredient ingredient) {
@@ -107,6 +118,5 @@ public class AddIngredientController {
     public Short getAmount() {
         return amount;
     }
-
 
 }

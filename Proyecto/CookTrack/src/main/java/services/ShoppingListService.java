@@ -8,16 +8,16 @@ import infrastructure.SessionManager;
 import models.Ingredient;
 import models.RecipeIngredient;
 import models.User;
+
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.List;
 
 public class ShoppingListService {
+    private static ShoppingListService shoppingListService;
     private final RecipeIngredientDao recipeIngredientDao;
     private final IngredientDao ingredientDao;
-
-    private static ShoppingListService shoppingListService;
 
     private ShoppingListService() {
         this.recipeIngredientDao = new RecipeIngredientDaoImpl();
@@ -38,14 +38,14 @@ public class ShoppingListService {
         return shoppingListService;
     }
 
-    public List<RecipeIngredient> getShoppingList(LocalDate start, LocalDate end){
+    public List<RecipeIngredient> getShoppingList(LocalDate start, LocalDate end) {
         User user = SessionManager.getInstance().getCurrentUser();
         LocalDateTime s = start.atStartOfDay();
         LocalDateTime e = end.atTime(LocalTime.MAX);
-        return recipeIngredientDao.getRecipeIngredientsByRangeOfDate(user,s,e);
+        return recipeIngredientDao.getRecipeIngredientsByRangeOfDate(user, s, e);
     }
 
-    public List<Ingredient> getIngredients(){
+    public List<Ingredient> getIngredients() {
         return ingredientDao.findAll();
     }
 
