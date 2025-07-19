@@ -3,35 +3,42 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.text.Text?>
+<?import javafx.scene.control.Button?>
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/24.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.recipesViewControllers.seeRecipeController" >
    <children>
-      <VBox layoutX="250.0" layoutY="14.0" prefHeight="265.0" prefWidth="400">
-         <children>
-            <Label fx:id="recipeNameLb" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0"  text="Label" />
-            <Label fx:id="prepTimeLb" alignment="CENTER" prefHeight="17.0" text="Label" />
 
-             <VBox fx:id="ingredientsVbox" prefHeight="64.0" prefWidth="100.0">
-               <children>
-                  <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredientes" textAlignment="CENTER" wrappingWidth="100" />
-               </children>
-            </VBox>
+       <HBox>
+           <Button fx:id="btnGoBack" mnemonicParsing="false" text="Ir atras" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" prefWidth="150"/>
+       </HBox>
 
-            <VBox fx:id="stepsVbox" prefHeight="67.0" prefWidth="100.0">
-                <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pasos" textAlignment="CENTER" wrappingWidth="100" />
-                </children>
-            </VBox>
+       <VBox layoutX="250.0" layoutY="14.0" prefHeight="265.0" prefWidth="400">
+           <children>
+               <Label fx:id="recipeNameLb" alignment="CENTER" contentDisplay="CENTER" prefHeight="17.0"  text="Label" />
+               <Label fx:id="prepTimeLb" alignment="CENTER" prefHeight="17.0" text="Label" />
 
-            <VBox fx:id="tagsVbox" prefHeight="67.0" prefWidth="100.0">
-                <children>
-                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Etiquetas" textAlignment="CENTER" wrappingWidth="100" />
-                </children>
-            </VBox>
+               <VBox fx:id="ingredientsVbox" prefHeight="64.0" prefWidth="100.0">
+                   <children>
+                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredientes" textAlignment="CENTER" wrappingWidth="100" />
+                   </children>
+               </VBox>
 
-         </children>
-      </VBox>
+               <VBox fx:id="stepsVbox" prefHeight="67.0" prefWidth="100.0">
+                   <children>
+                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Pasos" textAlignment="CENTER" wrappingWidth="100" />
+                   </children>
+               </VBox>
+
+               <VBox fx:id="tagsVbox" prefHeight="67.0" prefWidth="100.0">
+                   <children>
+                       <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Etiquetas" textAlignment="CENTER" wrappingWidth="100" />
+                   </children>
+               </VBox>
+
+           </children>
+       </VBox>
 
    </children>
 

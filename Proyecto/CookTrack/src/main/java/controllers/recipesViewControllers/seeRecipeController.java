@@ -5,7 +5,9 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+//import javafx.scene.layout.HBox;
 import javafx.scene.text.Text;
+import javafx.scene.control.Button;
 
 import javafx.stage.Stage;
 import javafx.scene.Node;
@@ -15,12 +17,17 @@ import models.Recipe;
 import models.RecipeIngredient;
 import models.RecipeStep;
 
+import javafx.event.Event;
 
 import services.IngredientService;
 
 import java.util.List;
 
 public class seeRecipeController{
+
+    @FXML
+    private Button btnGoBack;
+
     @FXML
     private Label recipeNameLb;
 
@@ -39,6 +46,11 @@ public class seeRecipeController{
     @FXML
     private void initialize(){
         //viewRecipe();
+
+        btnGoBack.setOnAction(event -> {
+            onGoBack(event);
+        });
+
     }
 
     @FXML
@@ -75,8 +87,25 @@ public class seeRecipeController{
 
             stepsVbox.getChildren().add(newLabel);
         }
-
-
-
     }
+
+
+    @FXML
+    public void onGoBack(Event event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Obtener el Stage actual y cambiar la escena
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
+            System.out.println("onGoBack");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 }

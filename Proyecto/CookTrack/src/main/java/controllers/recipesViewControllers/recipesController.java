@@ -41,6 +41,9 @@ public class recipesController {
     @FXML
     private Button btnAddRecipe;
 
+    @FXML
+    private Button btnGoBack;
+
     private Map<String, Parent> loadedViews = new HashMap<>();
 
     @FXML
@@ -50,6 +53,10 @@ public class recipesController {
 
         btnAddRecipe.setOnAction(event -> {
             onAddRecipe(event);
+        });
+
+        btnGoBack.setOnAction(event -> {
+            onGoBack(event);
         });
 
     }
@@ -114,12 +121,29 @@ public class recipesController {
             stage.centerOnScreen();
             stage.setMaximized(true);
             stage.show();
-
+            System.out.println("onAddRecipe");
         } catch (Exception e) {
             e.printStackTrace();
         }
 
-        System.out.println("onAddRecipe");
+    }
+
+    @FXML
+    public void onGoBack(Event event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Obtener el Stage actual y cambiar la escena
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
+            System.out.println("onGoBack to Main");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 

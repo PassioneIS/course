@@ -1,6 +1,7 @@
 package controllers.recipesViewControllers;
 
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.VBox;
 import javafx.scene.control.TextField;
 import javafx.scene.control.ComboBox;
@@ -16,7 +17,14 @@ import models.Ingredient;
 import services.BookRecipeService;
 import models.Recipe;
 
+import javafx.stage.Stage;
+import javafx.scene.Node;
+import javafx.scene.Scene;
+
 public class addRecipeController {
+
+    @FXML
+    private Button btnGoBack;
 
     @FXML
     private TextField txtRecipeName;
@@ -56,6 +64,10 @@ public class addRecipeController {
 
     @FXML
     public void initialize() {
+
+        btnGoBack.setOnAction(event -> {
+            onGoBack(event);
+        });
 
         btnAddIngredient.setOnAction(event -> {
             onAddIngredient(event);
@@ -139,6 +151,26 @@ public class addRecipeController {
 
         System.out.println("Creada nueva etiqueta!");
     }
+
+
+    @FXML
+    public void onGoBack(Event event){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
+            Scene scene = new Scene(loader.load());
+
+            // Obtener el Stage actual y cambiar la escena
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.setMaximized(true);
+            stage.show();
+            System.out.println("onGoBack");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     private boolean onValidRecipe(Event event) {
