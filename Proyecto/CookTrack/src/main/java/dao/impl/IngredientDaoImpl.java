@@ -3,6 +3,7 @@ package dao.impl;
 import dao.interfaces.IngredientDao;
 import infrastructure.DataBaseConnection;
 import models.Ingredient;
+import models.RecipeIngredient;
 import org.hibernate.Session;
 import java.time.LocalDate;
 import java.util.List;

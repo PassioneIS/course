@@ -1,5 +1,7 @@
 package services;
 
+import dao.impl.IngredientDaoImpl;
+import dao.impl.RecipeIngredientDaoImpl;
 import dao.interfaces.IngredientDao;
 import dao.interfaces.RecipeIngredientDao;
 import infrastructure.SessionManager;
@@ -13,9 +15,27 @@ import java.util.List;
 
 public class ShoppingListService {
     private final RecipeIngredientDao recipeIngredientDao;
+    private final IngredientDao ingredientDao;
 
-    public ShoppingListService(RecipeIngredientDao recipeIngredientDao) {
+    private static ShoppingListService shoppingListService;
+
+    private ShoppingListService() {
+        this.recipeIngredientDao = new RecipeIngredientDaoImpl();
+        this.ingredientDao = new IngredientDaoImpl();
+    }
+
+    //For testing only
+    public ShoppingListService(RecipeIngredientDao recipeIngredientDao, IngredientDao ingredientDao) {
         this.recipeIngredientDao = recipeIngredientDao;
+        this.ingredientDao = ingredientDao;
+    }
+
+    //Singleton
+    public static ShoppingListService getInstance() {
+        if (shoppingListService == null) {
+            shoppingListService = new ShoppingListService();
+        }
+        return shoppingListService;
     }
 
     public List<RecipeIngredient> getShoppingList(LocalDate start, LocalDate end){
@@ -25,17 +45,8 @@ public class ShoppingListService {
         return recipeIngredientDao.getRecipeIngredientsByRangeOfDate(user,s,e);
     }
 
-    public void checkIngredient(Ingredient ing){
-        //TODO
-        //Modify bd to persist shoppingList
-    }
-
-    public void addIngredient(List<Ingredient> shoppingList, Ingredient ingredient){
-
-    }
-
-    public void removeIngredient(List<Ingredient> shoppingList,Ingredient ingredient){
-
+    public List<Ingredient> getIngredients(){
+        return ingredientDao.findAll();
     }
 
 }

@@ -16,7 +16,7 @@
          <DatePicker fx:id="startDate" promptText="Inicio" />
          <DatePicker fx:id="endDate" promptText="Fin" />
          <Button fx:id="createListButton" mnemonicParsing="false" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" text="Generar" />
-         <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #ca863c; -fx-text-fill: white; -fx-background-radius: 5;" text="Añadir" />
+         <Button fx:id="addButton" mnemonicParsing="false" style="-fx-background-color: #ca863c; -fx-text-fill: white; -fx-background-radius: 5;" text="Añadir" />
          <Button fx:id="deleteButton" mnemonicParsing="false" style="-fx-background-color: #F44336; -fx-text-fill: white; -fx-background-radius: 5;" text="Borrar" />
       </HBox>
 

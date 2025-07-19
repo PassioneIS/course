@@ -35,8 +35,8 @@ public class Ingredient {
         this.name = name;
     }
 
-    @Override
+    /*@Override
     public String toString() {
         return "Ingredient [id=" + id + ", name=" + name + "]";
-    }
+    }*/
 }

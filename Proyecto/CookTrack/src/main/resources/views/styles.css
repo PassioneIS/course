@@ -1,0 +1,5 @@
+.input-error {
+    -fx-border-color: red;
+    -fx-border-width: 2px;
+    -fx-background-color: #ffe6e6; /* fondo suave rojo */
+}
