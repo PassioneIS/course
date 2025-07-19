@@ -1,6 +1,7 @@
 package models;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "recipe")
@@ -15,6 +16,13 @@ public class Recipe {
 
     @Column(nullable = false)
     private Integer preptime;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<RecipeIngredient> recipeIngredients;
+
+    @OneToMany(mappedBy = "recipe")
+    private List<CalendarRecipe> calendarRecipes;
+
 
     public Integer getId() {
         return id;

@@ -1,22 +1,54 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
 
-<BorderPane xmlns:fx="http://javafx.com/fxml" fx:controller="controllers.MainController">
+<BorderPane fx:id="mainScene" xmlns="http://javafx.com/javafx/23.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.MainController"
+            style="-fx-background-color: #f5f5f5;">
 
-    <!-- Menú lateral -->
-    <left>
-        <VBox spacing="10" style="-fx-background-color: #2c3e50; -fx-padding: 10;">
-            <Button text="Dashboard"  prefWidth="150"/>
-            <Button text="Recetas"  prefWidth="150"/>
-            <Button text="Usuarios"  prefWidth="150"/>
-        </VBox>
-    </left>
+    <!-- Barra superior -->
+    <top>
+        <HBox spacing="10" alignment="CENTER_LEFT"
+              style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dddddd; -fx-border-width: 0 0 1 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);">
 
-    <!-- Área de contenido dinámico -->
+            <!-- Botones de navegación -->
+            <Button fx:id="recipeServiceButton" prefWidth="150" text="Recetarios"
+                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" />
+            <Button fx:id="calendarServiceButton" prefWidth="150" text="Calendario"
+                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5;" />
+            <Button fx:id="feedServiceButtton" prefWidth="150" text="Feed"
+                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5;" />
+            <Button fx:id="shoppingListServiceButton" prefWidth="150" text="Lista de compras"
+                    style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-background-radius: 5;" />
+
+            <!-- Espaciador -->
+            <Pane HBox.hgrow="ALWAYS" />
+
+            <!-- Letrero de bienvenida -->
+            <Label fx:id="welcomeLabel" text="Bienvenido, Usuario"
+                   style="-fx-font-size: 16; -fx-text-fill: #333333; -fx-font-weight: bold;" />
+
+            <!-- Espaciador -->
+            <Pane HBox.hgrow="ALWAYS" />
+
+            <Button fx:id="logOutButton" prefWidth="150" text="Cerrar Sesión"
+                    style="-fx-background-color: #b02727; -fx-text-fill: white; -fx-background-radius: 5;" />
+
+        </HBox>
+    </top>
+
+    <!-- Área central de contenido -->
     <center>
-        <AnchorPane fx:id="contentPane"/>
+        <AnchorPane fx:id="contentPane"
+                    style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);"
+                    BorderPane.alignment="CENTER">
+        </AnchorPane>
     </center>
 
 </BorderPane>

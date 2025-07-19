@@ -23,6 +23,9 @@ public class LoginController {
     @FXML
     private Button loginButton;
 
+    @FXML
+    private Button createButton;
+
     private final LoginService loginService = new LoginService();
 
     @FXML
@@ -44,6 +47,10 @@ public class LoginController {
         loginButton.setOnAction(event -> {
             handleLogin(event);
         });
+
+        createButton.setOnAction(event -> {
+            openSignUpScene(event);
+        });
     }
 
     @FXML
@@ -57,18 +64,15 @@ public class LoginController {
         if (success) {
             System.out.println("Login exitoso!");
 
-
             try {
                 FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
                 Scene scene = new Scene(loader.load());
 
-                // Pasar datos al MainController si es necesario
-                MainController mainController = loader.getController();
-                //mainController.setCurrentUser(user);
-
                 // Obtener el Stage actual y cambiar la escena
                 Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
                 stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.setMaximized(true);
                 stage.show();
 
             } catch (Exception e) {
@@ -78,5 +82,24 @@ public class LoginController {
         } else {
             System.out.println("Usuario o contraseña incorrectos.");
         }
+    }
+
+    @FXML
+    private void openSignUpScene(Event event) {
+        System.out.println("LoginController: openSignUpScene()");
+
+            try {
+                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserHandleViews/signupView.fxml"));
+                Scene scene = new Scene(loader.load());
+
+                // Obtener el Stage actual y cambiar la escena
+                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+                stage.setScene(scene);
+                stage.centerOnScreen();
+                stage.show();
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
     }
 }

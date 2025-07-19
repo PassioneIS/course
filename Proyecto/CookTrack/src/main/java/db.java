@@ -1,43 +1,35 @@
-import infrastructure.DataBaseConnection;
+import dao.impl.IngredientDaoImpl;
+import dao.impl.RecipeIngredientDaoImpl;
+import dao.impl.UserDaoImpl;
+import dao.interfaces.IngredientDao;
+import dao.interfaces.RecipeIngredientDao;
+import dao.interfaces.UserDao;
 import models.Ingredient;
-import org.hibernate.Session;
-import org.hibernate.Transaction;
-
-import java.util.List;
+import models.RecipeIngredient;
+import models.User;
 
 public class db {
     public static void main(String[] args) {
-        System.out.println("Ejemplo uso de ORM hibernate");
+        System.out.println("Ejemplo uso USER DAO");
 
-        Ingredient ingredient = new Ingredient("Mazorca");
+        UserDao userDao = new UserDaoImpl();
 
-        Session session = null;
-        Transaction transaction = null;
+        for( User u: userDao.findAll()){
+            System.out.println(u.getName());
+        }
 
-        try {
-            session = DataBaseConnection.getSession();
-            //transaction = session.beginTransaction();
+        System.out.println("Ejemplo uso Ingredient DAO");
 
-            //session.persist(ingredient); //para guardar
+        IngredientDao ingredientDao = new IngredientDaoImpl();
+        for( Ingredient i: ingredientDao.findAll()){
+            System.out.println(i.getName());
+        }
 
-            List<Ingredient> lista = session.createQuery("from Ingredient",Ingredient.class).list();
+        System.out.println("Ejemplo uso RecipeIngredient DAO");
 
-            //transaction.commit();
-            System.out.println("Todo bien");
-            for (Ingredient i : lista) {
-                System.out.println(i.toString());
-            }
-
-        } catch (Exception e) {
-            if (transaction != null && transaction.isActive()) {
-                transaction.rollback();
-            }
-            e.printStackTrace();
-
-        } finally {
-            if (session != null) {
-                session.close();
-            }
+        RecipeIngredientDao recipeIngredientDao = new RecipeIngredientDaoImpl();
+        for( RecipeIngredient i: recipeIngredientDao.findAll()){
+            System.out.println(i.getIngredient().getName() + " for "+ i.getRecipe().getName());
         }
     }
 }
