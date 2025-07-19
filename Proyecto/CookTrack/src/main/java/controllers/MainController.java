@@ -48,6 +48,10 @@ public class MainController {
             goToShoppinListService();
         });
 
+        recipeServiceButton.setOnAction(e->{
+            changeScene("/views/RecipesViews/recipesView.fxml");
+        });
+
         logOutButton.setOnAction(e->{
             SessionManager.getInstance().logout();
             logOut(e);
