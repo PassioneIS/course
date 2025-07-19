@@ -8,6 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import services.LoginService;
@@ -25,6 +26,9 @@ public class LoginController {
 
     @FXML
     private Button createButton;
+
+    @FXML
+    private Label errorLabel;
 
     private final LoginService loginService = new LoginService();
 
@@ -80,6 +84,7 @@ public class LoginController {
             }
 
         } else {
+            errorLabel.setVisible(true);
             System.out.println("Usuario o contraseña incorrectos.");
         }
     }

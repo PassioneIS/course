@@ -42,4 +42,8 @@ public class SignupService {
         }
     }
 
+    public boolean validUsername(String username){
+        return username.matches("^[a-zA-Z0-9]{1,}$");
+    }
+
 }
