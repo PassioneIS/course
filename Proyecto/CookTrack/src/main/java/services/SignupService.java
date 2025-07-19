@@ -26,6 +26,7 @@ public class SignupService {
     }
 
     public boolean validPassword(String password){
+        if(password == null){return false;}
         //La contraseña debe tener mínimo 8 carácteres, 1 mayúscula, 1 minúscula y 1 número.
         return password.matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])[a-zA-Z0-9]{8,}$");
     }
@@ -43,6 +44,7 @@ public class SignupService {
     }
 
     public boolean validUsername(String username){
+        if(username == null){return false;}
         return username.matches("^[a-zA-Z0-9]{1,}$");
     }
 
