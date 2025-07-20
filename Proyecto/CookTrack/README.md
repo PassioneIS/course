@@ -63,19 +63,6 @@ mvn javafx:run
 mvn checkstyle:check
 ```
 
-### 🔹 **SpotBugs (análisis de posibles bugs)**
-
-```bash
-mvn spotbugs:check
-```
-
-### 🔹 **Formatear código automáticamente con Spotless**
-
-```bash
-mvn spotless:apply
-```
-No funciona :((
-
 ---
 
 ## 🧪 **Ejecutar tests**
