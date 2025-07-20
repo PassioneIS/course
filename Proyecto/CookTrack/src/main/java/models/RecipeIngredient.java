@@ -51,7 +51,7 @@ public class RecipeIngredient {
         this.recipe = recipe;
     }
 
-    public int getAmount() {
+    public short getAmount() {
         return amount;
     }
 

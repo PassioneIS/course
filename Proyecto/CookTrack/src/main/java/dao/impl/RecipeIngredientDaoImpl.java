@@ -90,22 +90,26 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
     @Override
     public List<RecipeIngredient> getRecipeIngredientsByRangeOfDate(User user, LocalDateTime start, LocalDateTime end) {
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
-            return session.createQuery("""
-                SELECT ri
-                from RecipeIngredient ri
-                join ri.recipe r
-                join ri.ingredient i
-                join r.calendarRecipes cr
-                join cr.calendar c
-                join c.user u
-                
-                where u.user_id = :userId and
-                cr.date BETWEEN :start AND :end
-                """,RecipeIngredient.class)
-                    .setParameter("userId", SessionManager.getInstance().getCurrentUser().getId())
+            List<RecipeIngredient> resultList;
+            short userId = user.getId();
+            resultList = session.createQuery("""
+                            SELECT ri
+                            from RecipeIngredient ri
+                            join ri.recipe r
+                            join ri.ingredient i
+                            join r.calendarRecipes cr
+                            join cr.calendar c
+                            join c.user u
+                            
+                            where u.user_id = :userId and
+                            cr.date BETWEEN :start AND :end
+                            """, RecipeIngredient.class)
+                    .setParameter("userId", userId)
                     .setParameter("start", start)
                     .setParameter("end", end)
                     .getResultList();
+
+            return resultList;
         }catch (Exception e){
             e.printStackTrace();
             return List.of();
