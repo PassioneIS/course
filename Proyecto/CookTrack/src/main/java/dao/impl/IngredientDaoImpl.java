@@ -44,7 +44,20 @@ public class IngredientDaoImpl extends DaoImpl<Ingredient,Integer> implements In
 
     @Override
     public void save(Ingredient ingredient){
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
 
+            System.out.println("Persistiendo: " + ingredient);
+
+            session.persist(ingredient);
+            transaction.commit();
+
+            System.out.println("Se guardo el ingrediente:" + ingredient);
+        }
+        catch (Exception e) {
+            System.err.println("Error al guardar el ingrediente:" + ingredient);
+            e.printStackTrace();
+        }
     }
 
     @Override

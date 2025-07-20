@@ -36,7 +36,7 @@ public class RecipeBookRecipe {
             columnDefinition = "varchar(31)[]"
     )
 
-    private List<String> nametag;
+    private List<String> nametag = new ArrayList<>();
 
     public int getId() {return id;}
 

@@ -23,6 +23,11 @@ import services.IngredientService;
 
 import java.util.List;
 
+import dao.impl.RecipeBookRecipeDaoImpl;
+import models.RecipeBookRecipe;
+
+import services.BookRecipeService;
+
 public class seeRecipeController{
 
     @FXML
@@ -42,6 +47,12 @@ public class seeRecipeController{
 
     @FXML
     private VBox tagsVbox;
+
+    @FXML
+    private Button btnFavorite;
+
+    @FXML
+    private Button btnPublic;
 
     @FXML
     private void initialize(){
@@ -87,6 +98,56 @@ public class seeRecipeController{
 
             stepsVbox.getChildren().add(newLabel);
         }
+
+        BookRecipeService bookRecipeService = new BookRecipeService();
+
+        RecipeBookRecipe recipeBookRecipe = bookRecipeService.findByRecipe(recipe);
+
+        List<String> nameTags = recipeBookRecipe.getNametag();
+
+        for(String tag : nameTags){
+            System.out.println("Tag:" + tag);
+
+            Label newLabel = new Label(tag);
+
+            tagsVbox.getChildren().add(newLabel);
+        }
+
+        if(recipeBookRecipe.isFavorite() == false){
+            btnFavorite.setText("Añadir a favoritos");
+        }
+        else{
+            Label newLabel = new Label("La receta esta en favoritos");
+            tagsVbox.getChildren().add(newLabel);
+
+            btnFavorite.setText("Retirar de favoritos");
+        }
+
+        if(recipeBookRecipe.isPublic() == false){
+            Label newLabel = new Label("La receta es privada");
+            tagsVbox.getChildren().add(newLabel);
+
+            btnPublic.setText("Hacer receta publica");
+        }
+        else{
+            Label newLabel = new Label("La receta es publica");
+            tagsVbox.getChildren().add(newLabel);
+
+            btnPublic.setText("Hacer receta privada");
+        }
+
+        btnPublic.setOnAction( event -> {
+            onChangePublic(recipeBookRecipe.isPublic());
+
+            bookRecipeService.changePublic(recipeBookRecipe);
+        });
+
+        btnFavorite.setOnAction( event -> {
+            onChangeFavorite(recipeBookRecipe.isFavorite());
+
+            bookRecipeService.changeFavorite(recipeBookRecipe);
+        });
+
     }
 
 
@@ -105,6 +166,26 @@ public class seeRecipeController{
             System.out.println("onGoBack");
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void onChangePublic(boolean isPublic){
+        if(isPublic == false){
+            btnPublic.setText("Hacer receta privada");
+        }
+        else{
+            btnPublic.setText("Hacer receta publica");
+        }
+    }
+
+    @FXML
+    public void onChangeFavorite(boolean isFavorite){
+        if(isFavorite == false){
+            btnFavorite.setText("Retirar de favoritos");
+        }
+        else{
+            btnFavorite.setText("Añadir a favoritos");
         }
     }
 
