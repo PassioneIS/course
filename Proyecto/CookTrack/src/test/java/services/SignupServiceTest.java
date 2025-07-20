@@ -31,5 +31,16 @@ public class SignupServiceTest {
         assertThat(service.validPassword("1234567890110")).isFalse();
         assertThat(service.validPassword("NotEn8")).isFalse();
     }
+    @Test
+    public void testPasswordMatch(){
+        assertThat(service.passwordMatch("Password1", "Password1")).isTrue();
+        assertThat(service.passwordMatch("PASSWORDa1", "passwordA1")).isFalse();
+        assertThat(service.passwordMatch("1235ABCasdf", "13456ABCasdf")).isFalse();
+        assertThat(service.passwordMatch("Password1", null)).isFalse();
+        assertThat(service.passwordMatch("", "NotEmpty1")).isFalse();
+    }
+
+    
+
 
 }
