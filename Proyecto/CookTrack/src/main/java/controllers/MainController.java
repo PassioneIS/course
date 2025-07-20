@@ -35,7 +35,6 @@ public class MainController {
     @FXML
     private MenuItem logOutButton;
 
-    //To store loaded views
     private final Map<String, Parent> loadedViews = new HashMap<>();
 
     @FXML
@@ -55,13 +54,18 @@ public class MainController {
             changeScene("/views/FeedView.fxml");
         });
 
-        changeScene("/views/FeedView.fxml");
+        calendarServiceButton.setOnAction(e -> {
+            changeScene("/views/CalendarView.fxml");
+        });
 
         logOutButton.setOnAction(e -> {
             SessionManager.getInstance().logout();
             logOut(e);
         });
+
+        changeScene("/views/FeedView.fxml");
     }
+
 
     public void changeScene(String fxml) {
         try {
@@ -83,7 +87,6 @@ public class MainController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loginView.fxml"));
             Scene scene = new Scene(loader.load());
 
-            // Obtener el Stage actual y cambiar la escena
             Stage stage = (Stage) welcomeLabel.getScene().getWindow();
             stage.setMaximized(false);
             stage.setScene(scene);

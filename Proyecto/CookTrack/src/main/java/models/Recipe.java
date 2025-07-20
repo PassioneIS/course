@@ -48,4 +48,12 @@ public class Recipe {
     public void setName(String name) {
         this.name = name;
     }
+
+    public List<CalendarRecipe> getCalendarRecipes() {
+        return calendarRecipes;
+    }
+
+    public void setCalendarRecipes(List<CalendarRecipe> calendarRecipes) {
+        this.calendarRecipes = calendarRecipes;
+    }
 }
