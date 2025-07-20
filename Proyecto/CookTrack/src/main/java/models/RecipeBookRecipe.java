@@ -1,13 +1,16 @@
 package models;
 
-//import com.vladmihalcea.hibernate.type.array.StringArrayType;
 import jakarta.persistence.*;
-//import org.hibernate.annotations.Type;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.hibernate.annotations.JdbcTypeCode;
+import org.hibernate.type.SqlTypes;
 
 @Entity
 @Table(name = "recipe_book_recipe")
 public class RecipeBookRecipe {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "recipe_book_recipe_id")
@@ -21,21 +24,21 @@ public class RecipeBookRecipe {
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    /*
-    @Type(StringArrayType.class)
-    @Column(name = "nametag", columnDefinition = "varchar(31)[]")
-    private String[] nametag;
-    */
-
     @Column(name = "favorite")
     private boolean favorite;
 
     @Column(name = "is_public")
     private boolean isPublic;
 
-    public int getId() {
-        return id;
-    }
+    @JdbcTypeCode(SqlTypes.ARRAY)
+    @Column(
+            name = "nametag",
+            columnDefinition = "varchar(31)[]"
+    )
+
+    private List<String> nametag;
+
+    public int getId() {return id;}
 
     public void setId(int id) {
         this.id = id;
@@ -57,14 +60,9 @@ public class RecipeBookRecipe {
         this.recipe = recipe;
     }
 
-    /*
-    public String[] getNametag() {
-        return nametag;
-    }
+    public List<String> getNametag() {return nametag;}
 
-    public void setNametag(String[] nametag) {
-        this.nametag = nametag;
-    }*/
+    public void addNametag(String nametag) {this.nametag.add(nametag);}
 
     public boolean isFavorite() {
         return favorite;

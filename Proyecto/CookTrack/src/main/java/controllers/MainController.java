@@ -8,6 +8,8 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
@@ -32,7 +34,7 @@ public class MainController {
     private Label welcomeLabel;
 
     @FXML
-    private Button logOutButton;
+    private MenuItem logOutButton;
 
     //To store loaded views
     private Map<String, Parent> loadedViews = new HashMap<>();
@@ -44,6 +46,10 @@ public class MainController {
 
         shoppingListServiceButton.setOnAction(e->{
             goToShoppinListService();
+        });
+
+        recipeServiceButton.setOnAction(e->{
+            changeScene("/views/RecipesViews/recipesView.fxml");
         });
 
         logOutButton.setOnAction(e->{
@@ -73,7 +79,7 @@ public class MainController {
             Scene scene = new Scene(loader.load());
 
             // Obtener el Stage actual y cambiar la escena
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) welcomeLabel.getScene().getWindow();
             stage.setMaximized(false);
             stage.setScene(scene);
             stage.centerOnScreen();

@@ -11,10 +11,70 @@ import org.hibernate.Session;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import models.Recipe;
+import models.Ingredient;
+
+import services.BookRecipeService;
+
+import infrastructure.DataBaseConnection;
+import org.hibernate.Session;
+import org.hibernate.Transaction;
+import org.hibernate.query.Query;
+
 public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIngredientId> implements RecipeIngredientDao {
 
     public RecipeIngredientDaoImpl() {
         super(RecipeIngredient.class);
+    }
+
+    //static Session session = DataBaseConnection.getSession();
+
+    @Override
+    public RecipeIngredient createRecipeIngredient(Recipe recipe, Ingredient ingredient, short Amount){
+
+        RecipeIngredient recipeIngredient = new RecipeIngredient();
+
+        recipeIngredient.setId(new RecipeIngredientId());
+        recipeIngredient.setRecipe(recipe);
+        recipeIngredient.setIngredient(ingredient);
+        recipeIngredient.setAmount(Amount);
+
+        System.out.println("Creacion del ingrediente:" + recipe + " - " + ingredient +  " - " + Amount);
+
+        return recipeIngredient;
+    }
+
+
+    @Override
+    public void save(RecipeIngredient recipeIngredient){
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
+            System.out.println("Persistiendo: " + recipeIngredient);
+            //recipeIngredient.setId(new RecipeIngredientId());
+            session.persist(recipeIngredient);
+            transaction.commit();
+
+            System.out.println("Se guardo el recipeIngredient:" + recipeIngredient);
+        }
+        catch (Exception e) {
+            System.err.println("Error al guardar el recipeIngredient:" + recipeIngredient);
+            e.printStackTrace();
+        }
+    }
+
+
+    @Override
+    public List<RecipeIngredient> findRecipeIngredientByRecipeId(Recipe recipe) {
+        try(Session session = DataBaseConnection.getSessionFactory().openSession()){
+            Query<RecipeIngredient> query = session.createQuery("FROM RecipeIngredient WHERE recipe = :recipe", RecipeIngredient.class);
+            query.setParameter("recipe", recipe);
+            return query.list();
+        }
+        catch (Exception e) {
+            System.err.println("Error consultar los ingredientes de la receta con ID:" + recipe);
+            e.printStackTrace();
+        }
+        return null;
     }
 
     @Override

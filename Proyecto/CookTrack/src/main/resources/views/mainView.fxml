@@ -1,52 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+
 <?import javafx.scene.control.Label?>
+
 <BorderPane fx:id="mainScene" xmlns="http://javafx.com/javafx/23.0.1"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="controllers.MainController"
             style="-fx-background-color: #f5f5f5;">
 
+
     <!-- Barra superior -->
     <top>
-        <HBox spacing="10" alignment="CENTER_LEFT"
-              style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dddddd; -fx-border-width: 0 0 1 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);">
+        <HBox alignment="CENTER_LEFT" spacing="10" style="-fx-background-color: #ffffff; -fx-padding: 10; -fx-border-color: #dddddd; -fx-border-width: 0 0 1 0; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);">
 
             <!-- Botones de navegación -->
-            <Button fx:id="recipeServiceButton" prefWidth="150" text="Recetarios"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" />
-            <Button fx:id="calendarServiceButton" prefWidth="150" text="Calendario"
-                    style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5;" />
-            <Button fx:id="feedServiceButtton" prefWidth="150" text="Feed"
-                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5;" />
-            <Button fx:id="shoppingListServiceButton" prefWidth="150" text="Lista de compras"
-                    style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-background-radius: 5;" />
+            <Button fx:id="recipeServiceButton" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" text="Recetarios" />
+            <Button fx:id="calendarServiceButton" prefWidth="150" style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5;" text="Calendario" />
+            <Button fx:id="feedServiceButtton" prefWidth="150" style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5;" text="Feed" />
+            <Button fx:id="shoppingListServiceButton" prefWidth="150" style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-background-radius: 5;" text="Lista de compras" />
 
             <!-- Espaciador -->
             <Pane HBox.hgrow="ALWAYS" />
 
             <!-- Letrero de bienvenida -->
-            <Label fx:id="welcomeLabel" text="Bienvenido, Usuario"
-                   style="-fx-font-size: 16; -fx-text-fill: #333333; -fx-font-weight: bold;" />
+            <Label fx:id="welcomeLabel" style="-fx-font-size: 16; -fx-text-fill: #333333; -fx-font-weight: bold;" text="Bienvenido, Usuario" />
 
             <!-- Espaciador -->
             <Pane HBox.hgrow="ALWAYS" />
-
-            <Button fx:id="logOutButton" prefWidth="150" text="Cerrar Sesión"
-                    style="-fx-background-color: #b02727; -fx-text-fill: white; -fx-background-radius: 5;" />
+         <MenuButton mnemonicParsing="false" style="-fx-background-color: eae133;" text="Opciones">
+           <items>
+             <MenuItem fx:id="logOutButton" mnemonicParsing="false" text="Cerrar Sesión" />
+           </items>
+         </MenuButton>
 
         </HBox>
     </top>
 
     <!-- Área central de contenido -->
     <center>
-        <AnchorPane fx:id="contentPane"
-                    style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);"
-                    BorderPane.alignment="CENTER">
+        <AnchorPane fx:id="contentPane" style="-fx-background-color: #ffffff; -fx-padding: 20; -fx-background-radius: 8; -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4,0,0,2);" BorderPane.alignment="CENTER">
         </AnchorPane>
     </center>
 

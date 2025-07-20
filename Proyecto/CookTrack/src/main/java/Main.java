@@ -17,7 +17,6 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
-        signupService.ensureAdminUser();
         showLoadingScreen();
     }
 
@@ -35,7 +34,7 @@ public class Main extends Application {
             Task<Void> initTask = new Task<>() {
                 @Override
                 protected Void call() {
-                    DataBaseConnection.getSessionFactory(); //Cargar DB
+                    DataBaseConnection.getSessionFactory().openSession(); //Cargar DB
                     return null;
                 }
             };
@@ -66,5 +65,4 @@ public class Main extends Application {
     public static void main(String[] args) {
         launch(args);
     }
-
 }
