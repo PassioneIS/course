@@ -276,8 +276,7 @@ public class addRecipeController {
 
         BookRecipeService bookRecipeService = new BookRecipeService();
 
-        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listSteps);
-
+        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listSteps, listTags);
 
         //(String name, Integer prepTime, List<Ingredient> ingredientsList, List<Short> listIngredientsAmount, List<String> stepsList)
 

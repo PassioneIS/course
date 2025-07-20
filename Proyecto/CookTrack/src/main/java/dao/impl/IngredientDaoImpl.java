@@ -4,12 +4,12 @@ import dao.interfaces.IngredientDao;
 import infrastructure.DataBaseConnection;
 import models.Ingredient;
 import org.hibernate.Session;
+import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-
 import java.time.LocalDate;
 import java.util.List;
 
-public class IngredientDaoImpl extends DaoImpl<Ingredient, Integer> implements IngredientDao {
+public class IngredientDaoImpl extends DaoImpl<Ingredient,Integer> implements IngredientDao{
 
     public IngredientDaoImpl() {
         super(Ingredient.class);
@@ -37,18 +37,31 @@ public class IngredientDaoImpl extends DaoImpl<Ingredient, Integer> implements I
                 .getResultList();*/
 
         return session.createQuery("""
-                    SELECT i
-                    FROM Ingredient i
-                """, Ingredient.class).getResultList();
+            SELECT i
+            FROM Ingredient i
+        """, Ingredient.class).getResultList();
     }
 
     @Override
-    public void save(Ingredient ingredient) {
+    public void save(Ingredient ingredient){
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            Transaction transaction = session.beginTransaction();
 
+            System.out.println("Persistiendo: " + ingredient);
+
+            session.persist(ingredient);
+            transaction.commit();
+
+            System.out.println("Se guardo el ingrediente:" + ingredient);
+        }
+        catch (Exception e) {
+            System.err.println("Error al guardar el ingrediente:" + ingredient);
+            e.printStackTrace();
+        }
     }
 
     @Override
-    public Ingredient findById(Integer integer) {
+    public Ingredient findById(Integer integer){
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<Ingredient> query = session.createQuery("FROM Ingredient WHERE id = :integer", Ingredient.class);
             query.setParameter("integer", integer);
@@ -58,7 +71,7 @@ public class IngredientDaoImpl extends DaoImpl<Ingredient, Integer> implements I
 
     @Override
     public Ingredient findByName(String name) {
-        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()){
             Query<Ingredient> query = session.createQuery("FROM Ingredient WHERE name = :name", Ingredient.class);
             query.setParameter("name", name);
             return query.uniqueResult();
@@ -66,18 +79,17 @@ public class IngredientDaoImpl extends DaoImpl<Ingredient, Integer> implements I
     }
 
     @Override
-    public List<Ingredient> findAll() {
+    public List<Ingredient> findAll(){
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<Ingredient> query = session.createQuery("FROM Ingredient", Ingredient.class);
             return query.list();
         }
     }
 
-    public void update(Ingredient entity) {
+    public void update(Ingredient entity){
 
     }
-
-    public void delete(Ingredient entity) {
+    public void delete(Ingredient entity){
 
     }
 
