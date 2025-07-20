@@ -23,6 +23,7 @@
          <!-- Contraseña -->
          <Label style="-fx-font-size: 14; -fx-text-fill: #555555;" text="Contraseña" />
          <PasswordField fx:id="passwordField" promptText="Ingresa tu contraseña" style="-fx-background-radius: 5; -fx-border-radius: 5; -fx-border-color: #cccccc; -fx-padding: 5;" />
+         <Label fx:id="errorLabel" text="Usuario o contraseña incorrectos." textFill="RED" visible="false" />
          <HBox alignment="TOP_CENTER" prefHeight="100.0" prefWidth="200.0" spacing="20.0">
             <children>
                <!-- Botón de login -->
