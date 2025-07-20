@@ -16,7 +16,7 @@ public class Calendar {
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @Column(name = "name" ,length = 31)
+    @Column(name = "name", length = 31)
     private String name;
 
     @OneToMany(mappedBy = "calendar")

@@ -8,27 +8,27 @@ import models.User;
 import java.util.List;
 
 public class FeedService {
-    public void publish(User user, Recipe recipe){
+    public void publish(User user, Recipe recipe) {
 
     }
 
-    public List<Post> getPosts(User user){
+    public List<Post> getPosts(User user) {
         return null;
     }
 
-    public void importRecipe(Recipe recipe){
+    public void importRecipe(Recipe recipe) {
 
     }
 
-    public void filterPostsByIngredient(List<Post> posts,Ingredient ing){
+    public void filterPostsByIngredient(List<Post> posts, Ingredient ing) {
 
     }
 
-    public void ratePost(Post post){
+    public void ratePost(Post post) {
 
     }
 
-    public void sortPostsByRating(List<Post> posts){
+    public void sortPostsByRating(List<Post> posts) {
 
     }
 }

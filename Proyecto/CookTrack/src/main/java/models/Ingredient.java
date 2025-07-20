@@ -3,7 +3,7 @@ package models;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name = "ingredient")
+@Table(name = "ingredient")
 public class Ingredient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -13,7 +13,8 @@ public class Ingredient {
     @Column(name = "name")
     private String name;
 
-    public Ingredient() {}
+    public Ingredient() {
+    }
 
     public Ingredient(String name) {
         this.name = name;
@@ -35,12 +36,4 @@ public class Ingredient {
         this.name = name;
     }
 
-    /*@Override
-    public String toString() {
-        return name;
-    }
-    /*
-    public String toString() {
-        return "Ingredient [id=" + id + ", name=" + name + "]";
-    }*/
 }

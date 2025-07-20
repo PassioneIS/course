@@ -5,14 +5,14 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
-import services.SignupService;
 import services.LoginService;
+import services.SignupService;
 
 public class SignupController {
     @FXML
@@ -42,7 +42,7 @@ public class SignupController {
     private final SignupService signupService = new SignupService();
     private final LoginService loginService = new LoginService();
 
-    public void initialize(){
+    public void initialize() {
         // Permitir ENTER en passwordField
         passwordField.setOnKeyPressed(event -> {
             if (event.getCode() == KeyCode.ENTER) {
@@ -73,7 +73,7 @@ public class SignupController {
     }
 
     @FXML
-    private void handleSignup(Event event){
+    private void handleSignup(Event event) {
         System.out.println("SignupController: handleSignup()");
 
         String username = usernameField.getText();
@@ -140,7 +140,7 @@ public class SignupController {
     }
 
     @FXML
-    private void returnToLoginScene(Event event){
+    private void returnToLoginScene(Event event) {
         System.out.println("SignupController: returnToLoginScene()");
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loginView.fxml"));

@@ -1,12 +1,10 @@
 package models;
 
 import jakarta.persistence.*;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
+
+import java.util.List;
 
 @Entity
 @Table(name = "recipe_book_recipe")
@@ -38,7 +36,9 @@ public class RecipeBookRecipe {
 
     private List<String> nametag;
 
-    public int getId() {return id;}
+    public int getId() {
+        return id;
+    }
 
     public void setId(int id) {
         this.id = id;
@@ -60,9 +60,13 @@ public class RecipeBookRecipe {
         this.recipe = recipe;
     }
 
-    public List<String> getNametag() {return nametag;}
+    public List<String> getNametag() {
+        return nametag;
+    }
 
-    public void addNametag(String nametag) {this.nametag.add(nametag);}
+    public void addNametag(String nametag) {
+        this.nametag.add(nametag);
+    }
 
     public boolean isFavorite() {
         return favorite;

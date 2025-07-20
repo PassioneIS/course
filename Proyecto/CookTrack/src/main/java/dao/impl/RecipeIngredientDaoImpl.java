@@ -2,24 +2,13 @@ package dao.impl;
 
 import dao.interfaces.RecipeIngredientDao;
 import infrastructure.DataBaseConnection;
-import infrastructure.SessionManager;
-import models.RecipeIngredient;
-import models.RecipeIngredientId;
-import models.User;
-import org.hibernate.Session;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import models.Recipe;
-import models.Ingredient;
-
-import services.BookRecipeService;
-
-import infrastructure.DataBaseConnection;
+import models.*;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
+
+import java.time.LocalDateTime;
+import java.util.List;
 
 public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIngredientId> implements RecipeIngredientDao {
 
@@ -30,7 +19,7 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
     //static Session session = DataBaseConnection.getSession();
 
     @Override
-    public RecipeIngredient createRecipeIngredient(Recipe recipe, Ingredient ingredient, short Amount){
+    public RecipeIngredient createRecipeIngredient(Recipe recipe, Ingredient ingredient, short Amount) {
 
         RecipeIngredient recipeIngredient = new RecipeIngredient();
 
@@ -39,14 +28,14 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
         recipeIngredient.setIngredient(ingredient);
         recipeIngredient.setAmount(Amount);
 
-        System.out.println("Creacion del ingrediente:" + recipe + " - " + ingredient +  " - " + Amount);
+        System.out.println("Creacion del ingrediente:" + recipe + " - " + ingredient + " - " + Amount);
 
         return recipeIngredient;
     }
 
 
     @Override
-    public void save(RecipeIngredient recipeIngredient){
+    public void save(RecipeIngredient recipeIngredient) {
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
             System.out.println("Persistiendo: " + recipeIngredient);
@@ -55,8 +44,7 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
             transaction.commit();
 
             System.out.println("Se guardo el recipeIngredient:" + recipeIngredient);
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Error al guardar el recipeIngredient:" + recipeIngredient);
             e.printStackTrace();
         }
@@ -65,12 +53,11 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
 
     @Override
     public List<RecipeIngredient> findRecipeIngredientByRecipeId(Recipe recipe) {
-        try(Session session = DataBaseConnection.getSessionFactory().openSession()){
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<RecipeIngredient> query = session.createQuery("FROM RecipeIngredient WHERE recipe = :recipe", RecipeIngredient.class);
             query.setParameter("recipe", recipe);
             return query.list();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.err.println("Error consultar los ingredientes de la receta con ID:" + recipe);
             e.printStackTrace();
         }
@@ -110,7 +97,7 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
                     .getResultList();
 
             return resultList;
-        }catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             return List.of();
         }

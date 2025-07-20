@@ -1,4 +1,3 @@
-import controllers.LoginController;
 import infrastructure.DataBaseConnection;
 import javafx.application.Application;
 import javafx.concurrent.Task;

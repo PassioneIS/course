@@ -1,6 +1,5 @@
 package controllers.shoppingListControllers;
 
-import dao.impl.RecipeIngredientDaoImpl;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -16,9 +15,9 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Callback;
 import models.Ingredient;
-import models.Recipe;
 import models.RecipeIngredient;
 import services.ShoppingListService;
+
 import java.time.LocalDate;
 
 public class ShoppingListController {
@@ -54,11 +53,11 @@ public class ShoppingListController {
         listViewIngredientes.setCellFactory(param -> new IngredienteListCell());
 
         startDate.setOnAction(e -> {
-            setDatePickerRange(endDate,startDate.getValue(),LocalDate.MAX);
+            setDatePickerRange(endDate, startDate.getValue(), LocalDate.MAX);
         });
 
         endDate.setOnAction(e -> {
-            setDatePickerRange(startDate,LocalDate.MIN,endDate.getValue());
+            setDatePickerRange(startDate, LocalDate.MIN, endDate.getValue());
         });
 
         createListButton.setOnAction(e -> {
@@ -92,7 +91,7 @@ public class ShoppingListController {
             Ingredient newIngredient = controller.getIngredient();
             Short amount = controller.getAmount();
 
-            if (newIngredient != null && amount != null){
+            if (newIngredient != null && amount != null) {
 
                 RecipeIngredient newIngredientRecipe = new RecipeIngredient();
 
@@ -100,14 +99,14 @@ public class ShoppingListController {
                 newIngredientRecipe.setAmount(amount);
 
                 boolean already = false;
-                for(RecipeIngredient recipeIngredient : listViewIngredientes.getItems()){
+                for (RecipeIngredient recipeIngredient : listViewIngredientes.getItems()) {
                     if (recipeIngredient.getIngredient().getId() == newIngredient.getId()) {
                         already = true;
                         recipeIngredient.setAmount((short) (recipeIngredient.getAmount() + newIngredientRecipe.getAmount()));
                         break;
                     }
                 }
-                if (!already){
+                if (!already) {
                     listViewIngredientes.getItems().add(newIngredientRecipe);
                 }
                 listViewIngredientes.refresh();
@@ -118,26 +117,26 @@ public class ShoppingListController {
         }
     }
 
-    private void handleGenerateList(){
+    private void handleGenerateList() {
 
         LocalDate startDate = this.startDate.getValue();
         LocalDate endDate = this.endDate.getValue();
 
-        if(startDate == null || endDate == null){
+        if (startDate == null || endDate == null) {
             System.out.println("La lista de ingredientes no puede ser nula");
             return;
         }
 
         ObservableList<RecipeIngredient> ingredients = FXCollections.observableArrayList(
-                shoppingListService.getShoppingList(startDate,endDate)
+                shoppingListService.getShoppingList(startDate, endDate)
         );
 
         listViewIngredientes.setItems(ingredients);
     }
 
-    private  void handleDeletion(){
+    private void handleDeletion() {
         listViewIngredientes.getItems().removeIf(RecipeIngredient::isChecked);
-    };
+    }
 
     private void setDatePickerRange(DatePicker datePicker, LocalDate minDate, LocalDate maxDate) {
         datePicker.setDayCellFactory(new Callback<DatePicker, DateCell>() {

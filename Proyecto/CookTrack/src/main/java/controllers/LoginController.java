@@ -5,10 +5,10 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Stage;
 import services.LoginService;
@@ -93,18 +93,18 @@ public class LoginController {
     private void openSignUpScene(Event event) {
         System.out.println("LoginController: openSignUpScene()");
 
-            try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserHandleViews/signupView.fxml"));
-                Scene scene = new Scene(loader.load());
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/UserHandleViews/signupView.fxml"));
+            Scene scene = new Scene(loader.load());
 
-                // Obtener el Stage actual y cambiar la escena
-                Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-                stage.setScene(scene);
-                stage.centerOnScreen();
-                stage.show();
+            // Obtener el Stage actual y cambiar la escena
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.centerOnScreen();
+            stage.show();
 
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

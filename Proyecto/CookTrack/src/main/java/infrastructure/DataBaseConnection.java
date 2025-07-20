@@ -1,8 +1,8 @@
 package infrastructure;
 
-import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
+
 import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.Properties;
@@ -13,7 +13,8 @@ public class DataBaseConnection {
     private static SessionFactory sessionFactory;
 
     // Constructor privado para evitar instanciación
-    private DataBaseConnection() {}
+    private DataBaseConnection() {
+    }
 
     // Método para obtener la instancia de SessionFactory
     public static SessionFactory getSessionFactory() {

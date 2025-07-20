@@ -5,7 +5,7 @@ import models.RecipeBookRecipe;
 
 import java.util.List;
 
-public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> implements RecipeBookRecipeDao {
+public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe, Integer> implements RecipeBookRecipeDao {
 
     public RecipeBookRecipeDaoImpl() {
         super(RecipeBookRecipe.class);

@@ -1,25 +1,21 @@
 package controllers.recipesViewControllers;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
+import javafx.scene.Node;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.event.Event;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
+import models.Ingredient;
+import services.BookRecipeService;
+import services.IngredientService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import services.IngredientService;
-import models.Ingredient;
-
-import services.BookRecipeService;
-import models.Recipe;
-
-import javafx.stage.Stage;
-import javafx.scene.Node;
-import javafx.scene.Scene;
 
 public class addRecipeController {
 
@@ -84,11 +80,10 @@ public class addRecipeController {
         btnCreateRecipe.setOnAction(event -> {
             boolean validRecipe = onValidRecipe(event);
 
-            if (validRecipe == true) {
+            if (validRecipe) {
                 System.out.println("La receta es valida");
                 onSaveRecipe(event);
-            }
-            else{
+            } else {
                 System.out.println("La receta NO es valida :c");
             }
         });
@@ -100,12 +95,11 @@ public class addRecipeController {
 
         List<Ingredient> ingredients = ingredientService.getIngredients();
 
-        if(ingredients.size() > 0){
+        if (ingredients.size() > 0) {
             System.out.println("La lista de ingredientes NO esta vacia! :D");
 
             combobox.getItems().addAll(ingredients);
-        }
-        else{
+        } else {
             System.out.println("La lista de ingredientes esta vacia! :c");
         }
     }
@@ -154,7 +148,7 @@ public class addRecipeController {
 
 
     @FXML
-    public void onGoBack(Event event){
+    public void onGoBack(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -220,8 +214,7 @@ public class addRecipeController {
 
             return validRecipe;
 
-        }
-        catch (java.lang.Exception ex) {
+        } catch (java.lang.Exception ex) {
             System.err.println("Dilijenciar todos campos del formulario y hacerlo correctamente: " + ex);
 
             validRecipe = false;
@@ -236,17 +229,17 @@ public class addRecipeController {
     private void onSaveRecipe(Event event) {
 
         String recipeName = txtRecipeName.getText();
-        System.out.println("Nombre de la receta:" + recipeName );
+        System.out.println("Nombre de la receta:" + recipeName);
 
-        Integer recipeTime = Integer.valueOf( txtRecipeTime.getText() );
-        System.out.println("Tiempo de preparacion:" + recipeTime );
+        Integer recipeTime = Integer.valueOf(txtRecipeTime.getText());
+        System.out.println("Tiempo de preparacion:" + recipeTime);
 
         System.out.println("Ingredientes");
 
         List<Ingredient> listIngredients = new ArrayList<>();
         List<Short> listIngredientsAmount = new ArrayList<>();
 
-        for(int i=0; i < ingredientList.size(); i++){
+        for (int i = 0; i < ingredientList.size(); i++) {
             String ingredientName = ingredientList.get(i).getValue().toString();
             Ingredient ingredient = ingredientService.getIngredientByName(ingredientName);
             System.out.println("    Ingrediente:" + ingredient.toString());
@@ -254,14 +247,14 @@ public class addRecipeController {
 
             short ingredientAmount = Short.valueOf(ingredientAmountList.get(i).getText());
             System.out.println("        Cantidad:" + ingredientAmount);
-            listIngredientsAmount.add((short)ingredientAmount);
+            listIngredientsAmount.add(ingredientAmount);
 
         }
 
         System.out.println("Pasos");
         List<String> listSteps = new ArrayList<>();
 
-        for(int i=0; i < recipeStepsList.size(); i++){
+        for (int i = 0; i < recipeStepsList.size(); i++) {
             System.out.println("    Paso posición:" + i);
 
             String step = recipeStepsList.get(i).getText();
@@ -272,7 +265,7 @@ public class addRecipeController {
         System.out.println("Tags");
         List<String> listTags = new ArrayList<>();
 
-        for(int i=0; i < tagsList.size(); i++){
+        for (int i = 0; i < tagsList.size(); i++) {
 
             String tag = tagsList.get(i).getText();
             System.out.println("    Tag:" + tag);
@@ -284,7 +277,6 @@ public class addRecipeController {
         BookRecipeService bookRecipeService = new BookRecipeService();
 
         bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listSteps);
-
 
 
         //(String name, Integer prepTime, List<Ingredient> ingredientsList, List<Short> listIngredientsAmount, List<String> stepsList)

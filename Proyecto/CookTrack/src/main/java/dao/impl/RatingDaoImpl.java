@@ -3,6 +3,7 @@ package dao.impl;
 import dao.interfaces.RatingDao;
 import models.Rating;
 import models.RatingId;
+
 import java.util.List;
 
 public class RatingDaoImpl extends DaoImpl<Rating, RatingId> implements RatingDao {

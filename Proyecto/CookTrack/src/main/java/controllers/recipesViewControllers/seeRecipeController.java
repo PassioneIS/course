@@ -1,29 +1,22 @@
 package controllers.recipesViewControllers;
 
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.control.Label;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.VBox;
-//import javafx.scene.layout.HBox;
-import javafx.scene.text.Text;
-import javafx.scene.control.Button;
-
-import javafx.stage.Stage;
 import javafx.scene.Node;
 import javafx.scene.Scene;
-
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.VBox;
+import javafx.stage.Stage;
 import models.Recipe;
 import models.RecipeIngredient;
 import models.RecipeStep;
-
-import javafx.event.Event;
-
 import services.IngredientService;
 
 import java.util.List;
 
-public class seeRecipeController{
+public class seeRecipeController {
 
     @FXML
     private Button btnGoBack;
@@ -44,7 +37,7 @@ public class seeRecipeController{
     private VBox tagsVbox;
 
     @FXML
-    private void initialize(){
+    private void initialize() {
         //viewRecipe();
 
         btnGoBack.setOnAction(event -> {
@@ -54,36 +47,36 @@ public class seeRecipeController{
     }
 
     @FXML
-    public void viewRecipe(Recipe recipe){
+    public void viewRecipe(Recipe recipe) {
         recipeNameLb.setText("Nombre de la receta" + recipe.getName());
-        prepTimeLb.setText("Tiempo de preparación:" +(recipe.getPreptime()).toString());
+        prepTimeLb.setText("Tiempo de preparación:" + (recipe.getPreptime()).toString());
 
         IngredientService ingredientService = new IngredientService();
 
         List<RecipeIngredient> recipeIngredients = ingredientService.getRecipeIngredients(recipe);
 
-        for(RecipeIngredient recipeIngredient : recipeIngredients){
+        for (RecipeIngredient recipeIngredient : recipeIngredients) {
 
-            String ingredientName = (ingredientService.getIngredientById( recipeIngredient.getIngredient().getId() ) ).getName();
+            String ingredientName = (ingredientService.getIngredientById(recipeIngredient.getIngredient().getId())).getName();
 
             int amount = recipeIngredient.getAmount();
 
-            Label newLabel = new Label("Ingredient:"+ ingredientName + ", cantidad:" + amount);
+            Label newLabel = new Label("Ingredient:" + ingredientName + ", cantidad:" + amount);
 
             ingredientsVbox.getChildren().add(newLabel);
         }
 
-        List<RecipeStep> recipeStepList = ingredientService.getRecipeStepbyRecipe( recipe );
+        List<RecipeStep> recipeStepList = ingredientService.getRecipeStepbyRecipe(recipe);
 
         System.out.println("El tamaño es de recipe step list es:" + recipeStepList.size());
 
-        for(RecipeStep recipeStep: recipeStepList){
+        for (RecipeStep recipeStep : recipeStepList) {
             int numStep = recipeStep.getPosition();
             String text = recipeStep.getText();
 
             System.out.println("Paso:" + numStep + ", es:" + text);
 
-            Label newLabel = new Label("Paso numero:"+ numStep + ", es:" + text);
+            Label newLabel = new Label("Paso numero:" + numStep + ", es:" + text);
 
             stepsVbox.getChildren().add(newLabel);
         }
@@ -91,7 +84,7 @@ public class seeRecipeController{
 
 
     @FXML
-    public void onGoBack(Event event){
+    public void onGoBack(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
             Scene scene = new Scene(loader.load());

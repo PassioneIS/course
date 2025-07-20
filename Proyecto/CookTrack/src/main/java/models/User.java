@@ -3,24 +3,25 @@ package models;
 import jakarta.persistence.*;
 
 @Entity
-@Table (name = "users")
+@Table(name = "users")
 public class User {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name =  "user_id")
+    @Column(name = "user_id")
     private short user_id;
 
-    @Column(name = "name",nullable = false,unique = true, length = 30)
+    @Column(name = "name", nullable = false, unique = true, length = 30)
     private String name;
 
     @Column(name = "password", length = 127)
     private String password;
 
 
-    public User() {}
+    public User() {
+    }
 
-    public  User(String username, String password){
+    public User(String username, String password) {
         this.name = username;
         this.password = password;
     }

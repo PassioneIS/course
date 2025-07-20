@@ -1,10 +1,8 @@
 package controllers.shoppingListControllers;
 
-import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -12,8 +10,6 @@ import javafx.stage.Stage;
 import javafx.util.StringConverter;
 import models.Ingredient;
 import services.ShoppingListService;
-
-import java.util.List;
 
 public class AddIngredientController {
     @FXML
@@ -53,19 +49,17 @@ public class AddIngredientController {
             } catch (NumberFormatException e) {
                 amount = null; // No es un short válido
             }
-        }else{
+        } else {
             //Return
             System.out.println("amount is null");
             return;
         }
 
 
-
         // Cierra la ventana
         Stage stage = (Stage) ingredientComboBox.getScene().getWindow();
         stage.close();
     }
-
 
 
     @FXML

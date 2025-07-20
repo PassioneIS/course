@@ -1,7 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-import jakarta.transaction.TransactionScoped;
 
 @Entity
 @Table(name = "recipe_ingredient")

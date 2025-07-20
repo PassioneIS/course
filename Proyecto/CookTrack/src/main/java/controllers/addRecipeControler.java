@@ -1,17 +1,16 @@
 package controllers;
 
-import javafx.fxml.FXML;
-import javafx.scene.layout.VBox;
-import javafx.scene.control.TextField;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Button;
 import javafx.event.Event;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.ComboBox;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import models.Ingredient;
+import services.IngredientService;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import services.IngredientService;
-import models.Ingredient;
 
 public class addRecipeControler {
 
@@ -77,12 +76,11 @@ public class addRecipeControler {
 
         List<Ingredient> ingredients = ingredientService.getIngredients();
 
-        if(ingredients.size() > 0){
+        if (ingredients.size() > 0) {
             System.out.println("La lista de ingredientes NO esta vacia! :D");
 
             combobox.getItems().addAll(ingredients);
-        }
-        else{
+        } else {
             System.out.println("La lista de ingredientes esta vacia! :c");
         }
     }
@@ -135,17 +133,17 @@ public class addRecipeControler {
         List<Ingredient> ingredients = ingredientService.getIngredients();
 
         String recipeName = txtRecipeName.getText();
-        System.out.println("Nombre de la receta:" + recipeName );
+        System.out.println("Nombre de la receta:" + recipeName);
 
-        Integer recipeTime = Integer.valueOf( txtRecipeTime.getText() );
-        System.out.println("Tiempo de preparacion:" + recipeTime );
+        Integer recipeTime = Integer.valueOf(txtRecipeTime.getText());
+        System.out.println("Tiempo de preparacion:" + recipeTime);
 
         List<Integer> listIngredientsId = new ArrayList<>();
         List<Integer> listIngredientsAmount = new ArrayList<>();
 
         System.out.println("Ingredientes");
 
-        for(int i=0; i < ingredientList.size(); i++){
+        for (int i = 0; i < ingredientList.size(); i++) {
 
             String ingredient = ingredientList.get(i).getValue().toString();
             System.out.println("    Ingrediente:" + ingredient);
@@ -157,20 +155,20 @@ public class addRecipeControler {
             int nonValidId = -1;
             int ingredientId = nonValidId;
 
-            for(int j=0; j < ingredients.size(); j++){
-                if(ingredients.get(j).toString() == ingredient){
+            for (int j = 0; j < ingredients.size(); j++) {
+                if (ingredients.get(j).toString() == ingredient) {
                     ingredientId = ingredients.get(j).getId();
                 }
             }
 
             listIngredientsId.add(ingredientId);
-            System.out.println("        Ingrediente ID:" + ingredientId );
+            System.out.println("        Ingrediente ID:" + ingredientId);
 
         }
 
         System.out.println("Pasos");
 
-        for(int i=0; i < recipeSteps.size(); i++){
+        for (int i = 0; i < recipeSteps.size(); i++) {
             System.out.println("    Paso position:" + i);
 
             String step = recipeSteps.get(i).getText();
@@ -179,7 +177,7 @@ public class addRecipeControler {
 
         System.out.println("Tags");
 
-        for(int i=0; i < tagsList.size(); i++){
+        for (int i = 0; i < tagsList.size(); i++) {
 
             String tag = tagsList.get(i).getText();
             System.out.println("    Tag:" + tag);

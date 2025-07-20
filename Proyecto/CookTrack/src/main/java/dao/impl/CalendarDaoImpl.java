@@ -2,9 +2,10 @@ package dao.impl;
 
 import dao.interfaces.CalendarDao;
 import models.Calendar;
+
 import java.util.List;
 
-public class CalendarDaoImpl extends DaoImpl<Calendar,Integer> implements CalendarDao {
+public class CalendarDaoImpl extends DaoImpl<Calendar, Integer> implements CalendarDao {
 
     public CalendarDaoImpl() {
         super(Calendar.class);

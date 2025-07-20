@@ -4,15 +4,14 @@ import infrastructure.SessionManager;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
@@ -37,22 +36,22 @@ public class MainController {
     private MenuItem logOutButton;
 
     //To store loaded views
-    private Map<String, Parent> loadedViews = new HashMap<>();
+    private final Map<String, Parent> loadedViews = new HashMap<>();
 
     @FXML
-    public void initialize(){
+    public void initialize() {
 
         welcomeLabel.setText("Bienvenido " + SessionManager.getInstance().getCurrentUser().getName());
 
-        shoppingListServiceButton.setOnAction(e->{
+        shoppingListServiceButton.setOnAction(e -> {
             goToShoppinListService();
         });
 
-        recipeServiceButton.setOnAction(e->{
+        recipeServiceButton.setOnAction(e -> {
             changeScene("/views/RecipesViews/recipesView.fxml");
         });
 
-        logOutButton.setOnAction(e->{
+        logOutButton.setOnAction(e -> {
             SessionManager.getInstance().logout();
             logOut(e);
         });
@@ -73,7 +72,7 @@ public class MainController {
         }
     }
 
-    private void logOut(ActionEvent event){
+    private void logOut(ActionEvent event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/loginView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -90,7 +89,7 @@ public class MainController {
         }
     }
 
-    private void goToShoppinListService(){
+    private void goToShoppinListService() {
         changeScene("/views/ShoppingListViews/shoppingList.fxml");
     }
 }
