@@ -18,8 +18,12 @@ public class CalendarRecipeDaoImpl extends DaoImpl<CalendarRecipe, CalendarRecip
 
     @Override
     public List<CalendarRecipe> findByCalendarId(int calendarId) {
-        // Lógica futura si se necesita...
-        return List.of();
+        try (Session session = DataBaseConnection.getSession()) {
+            String hql = "FROM CalendarRecipe cr WHERE cr.calendar.id = :calendarId";
+            Query<CalendarRecipe> query = session.createQuery(hql, CalendarRecipe.class);
+            query.setParameter("calendarId", calendarId);
+            return query.list();
+        }
     }
 
     @Override
@@ -28,8 +32,8 @@ public class CalendarRecipeDaoImpl extends DaoImpl<CalendarRecipe, CalendarRecip
             String hql = "FROM CalendarRecipe cr WHERE cr.calendar.id = :calendarId AND cr.date >= :startDate AND cr.date <= :endDate";
             Query<CalendarRecipe> query = session.createQuery(hql, CalendarRecipe.class);
             query.setParameter("calendarId", calendarId);
-            query.setParameter("startDate", start);
-            query.setParameter("endDate", end);
+            query.setParameter("startDate", start.atStartOfDay());
+            query.setParameter("endDate", end.atTime(23, 59, 59));
             return query.list();
         }
     }
