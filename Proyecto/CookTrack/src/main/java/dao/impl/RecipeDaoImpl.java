@@ -15,45 +15,35 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
         super(Recipe.class);
     }
 
-    //static Session session = DataBaseConnection.getSession();
-
-    public Recipe createRecipe(String name, Integer prepTime) {
-        Recipe recipe = new Recipe();
-        recipe.setName(name);
-        recipe.setPreptime(prepTime);
-
-        return recipe;
-    }
-
     @Override
     public void save(Recipe recipe) {
-        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            System.out.println("Persistiendo: " + recipe);
-
+        Transaction transaction = null;
+        try (Session session = DataBaseConnection.getSession()) {
+            transaction = session.beginTransaction();
             session.persist(recipe);
             transaction.commit();
-
-            System.out.println("Se guardo el la receta:" + recipe);
         } catch (Exception e) {
-            System.err.println("Error al guardar la Receta:" + recipe);
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
 
     @Override
     public List<Recipe> findByName(String name) {
-        return List.of();
+        try (Session session = DataBaseConnection.getSession()) {
+            String hql = "FROM Recipe r WHERE r.name = :recipeName";
+            Query<Recipe> query = session.createQuery(hql, Recipe.class);
+            query.setParameter("recipeName", name);
+            return query.list();
+        }
     }
 
-
     @Override
-    public Recipe findById(Integer integer) {
-        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
-            Query<Recipe> query = session.createQuery("FROM Recipe WHERE id = :integer", Recipe.class);
-            query.setParameter("id", integer);
-            return query.uniqueResult();
+    public Recipe findById(Integer id) {
+        try (Session session = DataBaseConnection.getSession()) {
+            return session.find(Recipe.class, id);
         }
     }
 
@@ -64,18 +54,8 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
 
     @Override
     public List<Recipe> findAll() {
-        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
-            Query<Recipe> query = session.createQuery("FROM Recipe", Recipe.class);
-            return query.list();
+        try (Session session = DataBaseConnection.getSession()) {
+            return session.createQuery("FROM Recipe", Recipe.class).list();
         }
-    }
-
-
-    public void update(Recipe entity) {
-
-    }
-
-    public void delete(Recipe entity) {
-
     }
 }
