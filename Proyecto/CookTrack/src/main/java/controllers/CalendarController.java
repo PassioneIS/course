@@ -168,4 +168,15 @@ public class CalendarController {
             alert.showAndWait();
         }
     }
+
+    @FXML
+    private void importCalendarAction() {
+        calendarService.importCalendar();
+        drawCalendar(); // Refrescar el calendario para mostrar los cambios
+    }
+
+    @FXML
+    private void exportCalendarAction() {
+        calendarService.exportCalendar();
+    }
 }
