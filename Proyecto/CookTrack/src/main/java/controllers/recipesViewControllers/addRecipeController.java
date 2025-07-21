@@ -62,7 +62,8 @@ public class addRecipeController {
     public void initialize() {
 
         btnGoBack.setOnAction(event -> {
-            onGoBack(event);
+            //onGoBack(event);
+            onClose(event);
         });
 
         btnAddIngredient.setOnAction(event -> {
@@ -94,11 +95,16 @@ public class addRecipeController {
     private void onListRecipe(ComboBox combobox) {
 
         List<Ingredient> ingredients = ingredientService.getIngredients();
+        List<String> ingredientsNames = new ArrayList<>();
+
+        for (Ingredient ingredient : ingredients) {
+            ingredientsNames.add(ingredient.getName());
+        }
 
         if (ingredients.size() > 0) {
             System.out.println("La lista de ingredientes NO esta vacia! :D");
 
-            combobox.getItems().addAll(ingredients);
+            combobox.getItems().addAll(ingredientsNames);
         } else {
             System.out.println("La lista de ingredientes esta vacia! :c");
         }
@@ -108,9 +114,11 @@ public class addRecipeController {
     private void onAddIngredient(Event event) {
         ComboBox newIngredient = new ComboBox();
         newIngredient.setPromptText("Seleccione un ingrediente");
+        newIngredient.setStyle("-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #4CAF50;");
 
         TextField newIngredientAmount = new TextField();
         newIngredientAmount.setPromptText("Ingrese la cantidad del ingrediente");
+        newIngredientAmount.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
 
         recipeContainer.getChildren().add(newIngredient);
         recipeContainer.getChildren().add(newIngredientAmount);
@@ -128,6 +136,7 @@ public class addRecipeController {
     private void onAddStep(Event event) {
         TextField newStep = new TextField();
         newStep.setPromptText("Ingrese el nuevo paso");
+        newStep.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
 
         stepContainer.getChildren().add(newStep);
         recipeStepsList.add(newStep);
@@ -139,6 +148,7 @@ public class addRecipeController {
     private void onAddTag(Event event) {
         TextField newTag = new TextField();
         newTag.setPromptText("Ingrese la etiqueta");
+        newTag.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
 
         tagContainer.getChildren().add(newTag);
         tagsList.add(newTag);
@@ -160,6 +170,19 @@ public class addRecipeController {
             stage.setMaximized(true);
             stage.show();
             System.out.println("onGoBack");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public void onClose(Event event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+
+            System.out.println("OnClose addRecipe");
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -59,14 +59,15 @@ public class seeRecipeController{
         //viewRecipe();
 
         btnGoBack.setOnAction(event -> {
-            onGoBack(event);
+            //onGoBack(event);
+            onClose(event);
         });
 
     }
 
     @FXML
     public void viewRecipe(Recipe recipe){
-        recipeNameLb.setText("Nombre de la receta" + recipe.getName());
+        recipeNameLb.setText("Nombre de la receta:" + recipe.getName());
         prepTimeLb.setText("Tiempo de preparación:" +(recipe.getPreptime()).toString());
 
         IngredientService ingredientService = new IngredientService();
@@ -79,7 +80,8 @@ public class seeRecipeController{
 
             int amount = recipeIngredient.getAmount();
 
-            Label newLabel = new Label("Ingredient:"+ ingredientName + ", cantidad:" + amount);
+            Label newLabel = new Label("• "+ ingredientName + "— Cantidad:" + amount);
+            newLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13;");
 
             ingredientsVbox.getChildren().add(newLabel);
         }
@@ -94,7 +96,8 @@ public class seeRecipeController{
 
             System.out.println("Paso:" + numStep + ", es:" + text);
 
-            Label newLabel = new Label("Paso numero:"+ numStep + ", es:" + text);
+            Label newLabel = new Label("Paso "+ numStep + ":" + text);
+            newLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13;");
 
             stepsVbox.getChildren().add(newLabel);
         }
@@ -106,9 +109,10 @@ public class seeRecipeController{
         List<String> nameTags = recipeBookRecipe.getNametag();
 
         for(String tag : nameTags){
-            System.out.println("Tag:" + tag);
+            System.out.println("🏷" + tag);
 
             Label newLabel = new Label(tag);
+            newLabel.setStyle("-fx-text-fill: #555555; -fx-background-color: #eeeeee; -fx-padding: 4 8 4 8; -fx-background-radius: 5;");
 
             tagsVbox.getChildren().add(newLabel);
         }
@@ -117,7 +121,8 @@ public class seeRecipeController{
             btnFavorite.setText("Añadir a favoritos");
         }
         else{
-            Label newLabel = new Label("La receta esta en favoritos");
+            Label newLabel = new Label("★ Esta receta está en favoritos");
+            newLabel.setStyle("-fx-text-fill: #4CAF50; -fx-font-weight: bold;");
             tagsVbox.getChildren().add(newLabel);
 
             btnFavorite.setText("Retirar de favoritos");
@@ -125,12 +130,14 @@ public class seeRecipeController{
 
         if(recipeBookRecipe.isPublic() == false){
             Label newLabel = new Label("La receta es privada");
+            newLabel.setStyle("-fx-text-fill: #FF5722; -fx-font-weight: bold;");
             tagsVbox.getChildren().add(newLabel);
 
             btnPublic.setText("Hacer receta publica");
         }
         else{
             Label newLabel = new Label("La receta es publica");
+            newLabel.setStyle("-fx-text-fill: #2196F3; -fx-font-weight: bold;");
             tagsVbox.getChildren().add(newLabel);
 
             btnPublic.setText("Hacer receta privada");
@@ -163,11 +170,25 @@ public class seeRecipeController{
             stage.centerOnScreen();
             stage.setMaximized(true);
             stage.show();
+
             System.out.println("onGoBack");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    @FXML
+    public void onClose(Event event) {
+        try {
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.close();
+
+            System.out.println("OnClose seeRecipe");
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     @FXML
     public void onChangePublic(boolean isPublic){
