@@ -1,25 +1,36 @@
 package controllers;
 
+<<<<<<< HEAD
 import controllers.recipesViewControllers.AddRecipeToCalendarController;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+=======
+import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
+<<<<<<< HEAD
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+=======
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
 import models.CalendarRecipe;
 import models.Recipe;
 import models.RecipeIngredient;
 import services.CalendarService;
 import services.ShoppingListService;
 
+<<<<<<< HEAD
 import java.io.IOException;
+=======
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -55,6 +66,7 @@ public class CalendarController {
     }
 
     private void drawCalendar() {
+<<<<<<< HEAD
         calendarGrid.getChildren().clear();
 
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("es", "ES"));
@@ -132,6 +144,9 @@ public class CalendarController {
         } catch (IOException e) {
             e.printStackTrace();
         }
+=======
+        // ... (el código para dibujar el calendario que ya teníamos)
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
     }
 
     @FXML
@@ -154,10 +169,19 @@ public class CalendarController {
         if (startDate != null && endDate != null && !startDate.isAfter(endDate)) {
             List<RecipeIngredient> shoppingList = shoppingListService.getShoppingList(startDate, endDate);
 
+<<<<<<< HEAD
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Lista de Compras Generada");
             alert.setHeaderText(null);
             alert.setContentText("Se generó una lista de compras con " + shoppingList.size() + " ingredientes.");
+=======
+            System.out.println("Se generó una lista de compras con " + shoppingList.size() + " ingredientes.");
+
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Lista de Compras Generada");
+            alert.setHeaderText(null);
+            alert.setContentText("Se generó una lista de compras con " + shoppingList.size() + " ingredientes.\n\n(Aquí se mostraría la lista en su respectiva vista)");
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
             alert.showAndWait();
 
         } else {
@@ -168,6 +192,7 @@ public class CalendarController {
             alert.showAndWait();
         }
     }
+<<<<<<< HEAD
 
     @FXML
     private void importCalendarAction() {
@@ -179,4 +204,6 @@ public class CalendarController {
     private void exportCalendarAction() {
         calendarService.exportCalendar();
     }
+=======
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
 }
