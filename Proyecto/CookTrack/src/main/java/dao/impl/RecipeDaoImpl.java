@@ -8,11 +8,20 @@ import org.hibernate.Transaction;
 import org.hibernate.query.Query;
 
 import java.util.List;
+import java.util.ArrayList;
 
 public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao {
 
     public RecipeDaoImpl() {
         super(Recipe.class);
+    }
+
+    public Recipe createRecipe(String name, Integer prepTime){
+        Recipe recipe = new Recipe();
+        recipe.setName(name);
+        recipe.setPreptime(prepTime);
+
+        return recipe;
     }
 
     @Override
@@ -22,6 +31,7 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
             transaction = session.beginTransaction();
             session.persist(recipe);
             transaction.commit();
+            System.out.println("Se guardo la receta:" + recipe);
         } catch (Exception e) {
             if (transaction != null) {
                 transaction.rollback();
@@ -41,9 +51,12 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
     }
 
     @Override
-    public Recipe findById(Integer id) {
-        try (Session session = DataBaseConnection.getSession()) {
-            return session.find(Recipe.class, id);
+    public Recipe findById(Integer integer) {
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            Query<Recipe> query = session.createQuery("FROM Recipe WHERE id = :integer", Recipe.class);
+            query.setParameter("integer", integer);
+            return query.uniqueResult();
+
         }
     }
 
@@ -53,9 +66,17 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
     }
 
     @Override
-    public List<Recipe> findAll() {
-        try (Session session = DataBaseConnection.getSession()) {
-            return session.createQuery("FROM Recipe", Recipe.class).list();
+    public List<Recipe> findAll(){
+        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
+            Query<Recipe> query = session.createQuery("FROM Recipe", Recipe.class);
+            return query.list();
         }
+    }
+
+    public void update(Recipe entity){
+
+    }
+    public void delete(Recipe entity){
+
     }
 }

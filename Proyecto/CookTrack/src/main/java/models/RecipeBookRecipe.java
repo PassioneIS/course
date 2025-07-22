@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import org.hibernate.annotations.JdbcTypeCode;
 import org.hibernate.type.SqlTypes;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -34,7 +35,7 @@ public class RecipeBookRecipe {
             columnDefinition = "varchar(31)[]"
     )
 
-    private List<String> nametag;
+    private List<String> nametag = new ArrayList<>();
 
     public int getId() {
         return id;

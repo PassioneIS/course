@@ -3,56 +3,55 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<AnchorPane fx:id="rootPaneAdd" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/24.0.1"
-            xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.recipesViewControllers.addRecipeController">
+<AnchorPane fx:id="rootPaneAdd"
+            style="-fx-background-color: #f5f5f5;"
+            xmlns="http://javafx.com/javafx/24.0.1"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="controllers.recipesViewControllers.addRecipeController">
 
-    <VBox fx:id="root" alignment="CENTER" spacing="10" xmlns="http://javafx.com/javafx/24.0.1"
-          xmlns:fx="http://javafx.com/fxml/1">
+    <VBox fx:id="root"
+          alignment="CENTER"
+          spacing="15"
+          xmlns="http://javafx.com/javafx/24.0.1"
+          xmlns:fx="http://javafx.com/fxml/1"
+          style="-fx-padding: 20; -fx-background-color: #ffffff; -fx-background-radius: 8;
+                 -fx-effect: dropshadow(gaussian, rgba(0,0,0,0.05), 4, 0, 0, 2);">
 
-        <HBox prefWidth="150.0">
-            <Button fx:id="btnGoBack" mnemonicParsing="false" prefWidth="150"
-                    style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"
-                    text="Ir atras"/>
+        <HBox alignment="CENTER_LEFT" prefWidth="150.0">
+            <Button fx:id="btnGoBack" mnemonicParsing="false" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"    text="← Volver"/>
         </HBox>
 
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de la Receta" wrappingWidth="150"/>
-        <TextField fx:id="txtRecipeName" promptText="Ingrese el nombre de la Receta"/>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Nombre de la Receta" wrappingWidth="150" style="-fx-font-size: 14; -fx-text-fill: #333333; -fx-font-weight: bold;" />
+        <TextField fx:id="txtRecipeName" promptText="Ingrese el nombre de la Receta" style="-fx-background-radius: 5; -fx-padding: 5;"/>
 
-        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo de preparacion" wrappingWidth="150"/>
-        <TextField fx:id="txtRecipeTime" promptText="Ingrese el tiempo de preparación"/>
+        <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Tiempo de preparacion" wrappingWidth="150" style="-fx-font-size: 14; -fx-text-fill: #333333; -fx-font-weight: bold;"/>
+        <TextField fx:id="txtRecipeTime" promptText="Ingrese el tiempo de preparación" style="-fx-background-radius: 5; -fx-padding: 5;"/>
 
-        <VBox fx:id="recipeContainer" prefHeight="131.0" prefWidth="150">
+        <VBox fx:id="recipeContainer" spacing="10" prefWidth="600">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredientes" wrappingWidth="150"/>
-                <Button fx:id="btnAddIngredient" mnemonicParsing="false" prefWidth="150"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"
-                        text="Agregar ingrediente"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingredientes" wrappingWidth="150" style="-fx-font-size: 14; -fx-text-fill: #333333; -fx-font-weight: bold;"/>
+                <Button fx:id="btnAddIngredient" text="Agregar ingrediente" mnemonicParsing="false" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"/>
             </children>
         </VBox>
 
-        <VBox fx:id="stepContainer" prefHeight="81.0" prefWidth="150" spacing="5">
+        <VBox fx:id="stepContainer" spacing="10" prefWidth="600">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar Pasos" wrappingWidth="150"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar Pasos" wrappingWidth="150" style="-fx-font-size: 14; -fx-text-fill: #333333; -fx-font-weight: bold;"/>
 
-                <Button fx:id="btnAddStep" prefWidth="150"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"
-                        text="Agregar paso"/>
+                <Button fx:id="btnAddStep" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" text="Agregar paso"/>
             </children>
         </VBox>
 
         <VBox fx:id="tagContainer" prefHeight="102.0" prefWidth="149.0">
             <children>
-                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar etiquetas" wrappingWidth="150"/>
+                <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Ingresar etiquetas" wrappingWidth="150" style="-fx-font-size: 14; -fx-text-fill: #333333; -fx-font-weight: bold;"/>
 
-                <Button fx:id="btnAddTag" mnemonicParsing="false" prefWidth="150"
-                        style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"
-                        text="Agregar Etiqueta"/>
+                <Button fx:id="btnAddTag" mnemonicParsing="false" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;" text="Agregar Etiqueta"/>
             </children>
         </VBox>
 
-        <Button fx:id="btnCreateRecipe" mnemonicParsing="false" prefWidth="150"
-                style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5;"
-                text="Crear receta"/>
+        <Button fx:id="btnCreateRecipe" mnemonicParsing="false" prefWidth="150" style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold;
+                       -fx-background-radius: 5; -fx-padding: 8;" text="Crear receta"/>
 
     </VBox>
 
