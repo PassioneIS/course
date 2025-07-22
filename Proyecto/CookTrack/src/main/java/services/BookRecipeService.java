@@ -91,6 +91,30 @@ public class BookRecipeService {
         }
     }
 
+    public RecipeBookRecipe findByRecipe(Recipe recipe){
+
+        RecipeBookRecipeDaoImpl recipeBookRecipeDao = new RecipeBookRecipeDaoImpl();
+
+        RecipeBookRecipe recipeBookRecipe = recipeBookRecipeDao.findRecipeBookRecipeByRecipe(recipe);
+
+        return recipeBookRecipe;
+    }
+
+    public void changePublic(RecipeBookRecipe recipeBookRecipe){
+        RecipeBookRecipeDaoImpl recipeBookRecipeDaoImpl = new RecipeBookRecipeDaoImpl();
+
+        recipeBookRecipe.setPublic(!recipeBookRecipe.isPublic());
+        recipeBookRecipeDaoImpl.update(recipeBookRecipe);
+    }
+
+
+    public void changeFavorite(RecipeBookRecipe recipeBookRecipe){
+        RecipeBookRecipeDaoImpl recipeBookRecipeDaoImpl = new RecipeBookRecipeDaoImpl();
+
+        recipeBookRecipe.setFavorite(!recipeBookRecipe.isFavorite());
+        recipeBookRecipeDaoImpl.update(recipeBookRecipe);
+    }
+
     public List<Recipe> getAllRecipes() {
         return recipeDao.findAll();
     }
