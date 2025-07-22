@@ -10,6 +10,8 @@ import java.util.List;
 public interface RecipeBookRecipeDao extends DAO<RecipeBookRecipe, Integer> {
     List<RecipeBookRecipe> findByRecipeBookId(int recipeBookId);
 
+    RecipeBookRecipe findByRecipeId(int recipeId);
+
     List<RecipeBookRecipe> findFavoritesByRecipeBookId(int recipeBookId);
 
     RecipeBookRecipe findRecipeBookRecipeByRecipe(Recipe recipe);

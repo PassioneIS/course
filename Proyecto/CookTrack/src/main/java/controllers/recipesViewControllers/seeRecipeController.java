@@ -16,11 +16,16 @@ import javafx.scene.Scene;
 import models.Recipe;
 import models.RecipeIngredient;
 import models.RecipeStep;
+<<<<<<< HEAD
 
 import javafx.event.Event;
 
 import services.IngredientService;
+=======
+import services.BookRecipeService; // Asumiendo un servicio que pueda dar detalles
+>>>>>>> aa05c3c (feat: Implementa la GUI completa para los módulos de Calendario y Recetario)
 
+import java.io.IOException;
 import java.util.List;
 
 import dao.impl.RecipeBookRecipeDaoImpl;
@@ -32,20 +37,17 @@ public class seeRecipeController{
 
     @FXML
     private Button btnGoBack;
-
     @FXML
     private Label recipeNameLb;
-
     @FXML
     private Label prepTimeLb;
-
     @FXML
     private VBox ingredientsVbox;
-
     @FXML
     private VBox stepsVbox;
 
     @FXML
+<<<<<<< HEAD
     private VBox tagsVbox;
 
     @FXML
@@ -69,9 +71,21 @@ public class seeRecipeController{
     public void viewRecipe(Recipe recipe){
         recipeNameLb.setText("Nombre de la receta:" + recipe.getName());
         prepTimeLb.setText("Tiempo de preparación:" +(recipe.getPreptime()).toString());
+=======
+    private void initialize() {
+        btnGoBack.setOnAction(event -> onGoBack(event));
+    }
 
-        IngredientService ingredientService = new IngredientService();
+    public void viewRecipe(Recipe recipe) {
+        recipeNameLb.setText(recipe.getName());
+        prepTimeLb.setText("Tiempo de preparación: " + recipe.getPreptime() + " minutos");
+>>>>>>> aa05c3c (feat: Implementa la GUI completa para los módulos de Calendario y Recetario)
 
+        // Limpiar vistas anteriores
+        ingredientsVbox.getChildren().clear();
+        stepsVbox.getChildren().clear();
+
+<<<<<<< HEAD
         List<RecipeIngredient> recipeIngredients = ingredientService.getRecipeIngredients(recipe);
 
         for(RecipeIngredient recipeIngredient : recipeIngredients){
@@ -100,6 +114,20 @@ public class seeRecipeController{
             newLabel.setStyle("-fx-text-fill: #333333; -fx-font-size: 13;");
 
             stepsVbox.getChildren().add(newLabel);
+=======
+        // Lógica para obtener y mostrar ingredientes y pasos
+        // (Esta parte puede necesitar un método en BookRecipeService)
+        List<RecipeIngredient> recipeIngredients = recipe.getRecipeIngredients();
+        for (RecipeIngredient ri : recipeIngredients) {
+            Label ingredientLabel = new Label(ri.getIngredient().getName() + " - " + ri.getAmount());
+            ingredientsVbox.getChildren().add(ingredientLabel);
+        }
+
+        List<RecipeStep> recipeSteps = recipe.getRecipeSteps();
+        for (RecipeStep step : recipeSteps) {
+            Label stepLabel = new Label("Paso " + step.getPosition() + ": " + step.getText());
+            stepsVbox.getChildren().add(stepLabel);
+>>>>>>> aa05c3c (feat: Implementa la GUI completa para los módulos de Calendario y Recetario)
         }
 
         BookRecipeService bookRecipeService = new BookRecipeService();
@@ -157,25 +185,24 @@ public class seeRecipeController{
 
     }
 
-
     @FXML
     public void onGoBack(Event event){
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
             Scene scene = new Scene(loader.load());
-
-            // Obtener el Stage actual y cambiar la escena
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.setMaximized(true);
             stage.show();
+<<<<<<< HEAD
 
             System.out.println("onGoBack");
+=======
+>>>>>>> aa05c3c (feat: Implementa la GUI completa para los módulos de Calendario y Recetario)
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+<<<<<<< HEAD
 
     @FXML
     public void onClose(Event event) {
@@ -210,4 +237,6 @@ public class seeRecipeController{
         }
     }
 
+=======
+>>>>>>> aa05c3c (feat: Implementa la GUI completa para los módulos de Calendario y Recetario)
 }

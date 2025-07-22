@@ -1,7 +1,6 @@
 package models;
 
 import jakarta.persistence.*;
-
 import java.util.List;
 
 @Entity
@@ -18,8 +17,11 @@ public class Recipe {
     @Column(nullable = false)
     private Integer preptime;
 
-    @OneToMany(mappedBy = "recipe")
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
     private List<RecipeIngredient> recipeIngredients;
+
+    @OneToMany(mappedBy = "recipe", fetch = FetchType.EAGER)
+    private List<RecipeStep> recipeSteps;
 
     @OneToMany(mappedBy = "recipe")
     private List<CalendarRecipe> calendarRecipes;
@@ -47,6 +49,22 @@ public class Recipe {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<RecipeIngredient> getRecipeIngredients() {
+        return recipeIngredients;
+    }
+
+    public void setRecipeIngredients(List<RecipeIngredient> recipeIngredients) {
+        this.recipeIngredients = recipeIngredients;
+    }
+
+    public List<RecipeStep> getRecipeSteps() {
+        return recipeSteps;
+    }
+
+    public void setRecipeSteps(List<RecipeStep> recipeSteps) {
+        this.recipeSteps = recipeSteps;
     }
 
     public List<CalendarRecipe> getCalendarRecipes() {

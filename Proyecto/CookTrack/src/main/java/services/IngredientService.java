@@ -15,36 +15,31 @@ import java.util.List;
 
 public class IngredientService {
 
-    static IngredientDao ingredientDao = new IngredientDaoImpl();
-
-    static RecipeIngredientDao recipeIngredientDao = new RecipeIngredientDaoImpl();
-
-    static RecipeStepDao recipeStepDao = new RecipeStepDaoImpl();
+    private final IngredientDao ingredientDao = new IngredientDaoImpl();
+    private final RecipeIngredientDao recipeIngredientDao = new RecipeIngredientDaoImpl();
+    private final RecipeStepDao recipeStepDao = new RecipeStepDaoImpl();
 
     public Ingredient getIngredientById(Integer ingredientId) {
-        Ingredient ingredient = ingredientDao.findById(ingredientId);
-        return ingredient;
+        return ingredientDao.findById(ingredientId);
     }
 
     public Ingredient getIngredientByName(String name) {
-        Ingredient ingredient = ingredientDao.findByName(name);
-        return ingredient;
+        List<Ingredient> ingredients = ingredientDao.findByName(name);
+        if (ingredients != null && !ingredients.isEmpty()) {
+            return ingredients.get(0);
+        }
+        return null;
     }
 
     public List<Ingredient> getIngredients() {
-        List<Ingredient> ingredients = ingredientDao.findAll();
-        return ingredients;
+        return ingredientDao.findAll();
     }
 
     public List<RecipeIngredient> getRecipeIngredients(Recipe recipe) {
-        List<RecipeIngredient> recipeIngredients = recipeIngredientDao.findRecipeIngredientByRecipeId(recipe);
-        return recipeIngredients;
+        return recipeIngredientDao.findRecipeIngredientByRecipeId(recipe);
     }
 
     public List<RecipeStep> getRecipeStepbyRecipe(Recipe recipe) {
-        List<RecipeStep> recipeSteps = recipeStepDao.findByRecipeIdOrderByPosition(recipe);
-        return recipeSteps;
+        return recipeStepDao.findByRecipeIdOrderByPosition(recipe);
     }
-
-
 }

@@ -44,7 +44,9 @@ public class recipesController {
 
     public void setSelectionMode(boolean mode) {
         this.selectionMode = mode;
-        listRecipes(); // Redibuja la lista para mostrar los botones correctos
+        btnAddRecipe.setVisible(!mode);
+        btnGoBack.setVisible(!mode);
+        listRecipes();
     }
 
     public Recipe getSelectedRecipe() {
@@ -70,15 +72,18 @@ public class recipesController {
                 selectButton.setOnAction(e -> handleRecipeAction(recipe, e));
                 buttonsBox.getChildren().add(selectButton);
             } else {
-                Button btnSeeMore = new Button("Ver más");
-                btnSeeMore.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
-                btnSeeMore.setOnAction(e -> onSeeMore(recipe, e));
+                Button seeMoreButton = new Button("Ver más");
+                seeMoreButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
+                seeMoreButton.setOnAction(e -> onSeeMore(recipe, e));
 
-                Button btnPDF = new Button("Descargar");
-                btnPDF.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
-                btnPDF.setOnAction(e -> onDownloadPDF(recipe, e));
+                Button modifyButton = new Button("Modificar");
+                modifyButton.setOnAction(e -> onModifyRecipe(recipe, e));
 
-                buttonsBox.getChildren().addAll(btnSeeMore, btnPDF);
+                Button exportButton = new Button("Descargar PDF");
+                exportButton.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
+                exportButton.setOnAction(e -> onDownloadPDF(recipe, e));
+
+                buttonsBox.getChildren().addAll(seeMoreButton, modifyButton, exportButton);
             }
 
             hbox.getChildren().addAll(nameLabel, prepTimeLabel, buttonsBox);
@@ -90,6 +95,21 @@ public class recipesController {
         if (selectionMode) {
             this.selectedRecipe = recipe;
             closeWindow(event);
+        }
+    }
+
+    private void onModifyRecipe(Recipe recipe, Event event) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/addRecipeView.fxml"));
+            Scene scene = new Scene(loader.load());
+            addRecipeController controller = loader.getController();
+            controller.setRecipeToEdit(recipe);
+
+            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException e) {
+            e.printStackTrace();
         }
     }
 
@@ -115,7 +135,6 @@ public class recipesController {
     private void onDownloadPDF(Recipe recipe, Event event) {
         PDFService pdfService = new PDFService();
         pdfService.downloadPDF(recipe);
-        System.out.println("Se descargó la receta " + recipe.getName());
     }
 
     private void onAddRecipe(Event event) {
