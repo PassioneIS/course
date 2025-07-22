@@ -7,10 +7,7 @@ import dao.interfaces.CalendarDao;
 import dao.interfaces.CalendarRecipeDao;
 import dao.interfaces.RecipeDao;
 import infrastructure.SessionManager;
-import models.Calendar;
-import models.CalendarRecipe;
-import models.Recipe;
-import models.User;
+import models.*;
 import javafx.stage.FileChooser;
 
 import java.io.BufferedReader;
@@ -33,12 +30,19 @@ public class CalendarService {
         this.recipeDao = new RecipeDaoImpl();
     }
 
+
     public void assignRecipeToDate(Recipe recipe, LocalDate date) {
         User currentUser = SessionManager.getInstance().getCurrentUser();
         if (currentUser == null) return;
         Calendar calendar = findOrCreateUserCalendar(currentUser);
 
         CalendarRecipe calendarRecipe = new CalendarRecipe();
+
+        CalendarRecipeId id = new CalendarRecipeId();
+        id.setCalendarId(calendar.getId());
+        id.setRecipeId(recipe.getId());
+
+        calendarRecipe.setId(id);
         calendarRecipe.setCalendar(calendar);
         calendarRecipe.setRecipe(recipe);
         calendarRecipe.setDate(date.atStartOfDay());

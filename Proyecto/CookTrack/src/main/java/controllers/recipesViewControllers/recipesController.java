@@ -1,6 +1,7 @@
 package controllers.recipesViewControllers;
 
 import infrastructure.SessionManager;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -72,7 +73,6 @@ public class recipesController {
             if (selectionMode) {
                 Button selectButton = new Button("Seleccionar");
                 selectButton.setOnAction(e -> handleRecipeAction(recipe, e));
-                buttonsBox.getChildren().add(selectButton);
             } else {
                 Button seeMoreButton = new Button("Ver más");
                 seeMoreButton.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");

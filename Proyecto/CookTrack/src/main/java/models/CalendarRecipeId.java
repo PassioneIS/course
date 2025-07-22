@@ -35,5 +35,19 @@ public class CalendarRecipeId implements Serializable {
         return Objects.hash(calendarId, recipeId);
     }
 
-    // Getters y setters
+    public short getCalendarId() {
+        return calendarId;
+    }
+
+    public void setCalendarId(short calendarId) {
+        this.calendarId = calendarId;
+    }
+
+    public int getRecipeId() {
+        return recipeId;
+    }
+
+    public void setRecipeId(int recipeId) {
+        this.recipeId = recipeId;
+    }
 }

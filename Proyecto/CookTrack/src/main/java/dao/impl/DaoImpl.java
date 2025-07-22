@@ -24,7 +24,9 @@ public class DaoImpl<T, ID extends Serializable> implements DAO<T, ID> {
             session.persist(entity);
             tx.commit();
         } catch (Exception e) {
-            if (tx != null) tx.rollback();
+            /*if (tx != null && tx.getStatus().canRollback()) {
+                tx.rollback();
+            }*/
             e.printStackTrace();
         }
     }
