@@ -1,14 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.CheckBox?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.layout.HBox?>
-<?import javafx.scene.text.Text?>
-<HBox spacing="10" alignment="CENTER_LEFT" xmlns="http://javafx.com/javafx/23.0.1"
-      xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="controllers.shoppingListControllers.IngredientCellController"
-      style="-fx-padding: 10; -fx-background-color: #ffffff; -fx-border-color: #dddddd; -fx-border-radius: 8; -fx-background-radius: 8;">
+<?import javafx.scene.layout.Region?>
 
-    <CheckBox fx:id="checkBox" style="-fx-font-size: 16;"/>
-
-    <Text fx:id="cantidadText" style="-fx-font-size: 16; -fx-fill: #333333;"/>
+<HBox alignment="CENTER_LEFT" spacing="10" style="-fx-padding: 5 10;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.shoppingListControllers.IngredientCellController">
+    <children>
+        <CheckBox fx:id="checkBox" onAction="#onCheckBoxAction" />
+        <Label fx:id="nameLabel" text="Nombre del Ingrediente" />
+        <Region HBox.hgrow="ALWAYS" />
+        <Label fx:id="amountLabel" text="Cantidad" />
+    </children>
+    <padding>
+        <Insets bottom="5.0" top="5.0" />
+    </padding>
 </HBox>

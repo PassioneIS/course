@@ -6,40 +6,31 @@ import jakarta.persistence.*;
 @Table(name = "recipe_ingredient")
 public class RecipeIngredient {
 
-    @EmbeddedId
-    private RecipeIngredientId id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "recipe_ingredient_id")
+    private int id;
 
     @ManyToOne
-    @MapsId("ingredientId")
-    @JoinColumn(name = "ingredient_id")
-    private Ingredient ingredient;
-
-    @ManyToOne
-    @MapsId("recipeId")
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
-    @Column(name = "amount", nullable = false)
+    @ManyToOne
+    @JoinColumn(name = "ingredient_id")
+    private Ingredient ingredient;
+
+    @Column(name = "amount")
     private short amount;
 
-    //For shoppingListService
     @Transient
-    private boolean isChecked;
+    private boolean isChecked = false;
 
-    public RecipeIngredientId getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(RecipeIngredientId id) {
+    public void setId(int id) {
         this.id = id;
-    }
-
-    public Ingredient getIngredient() {
-        return ingredient;
-    }
-
-    public void setIngredient(Ingredient ingredient) {
-        this.ingredient = ingredient;
     }
 
     public Recipe getRecipe() {
@@ -48,6 +39,14 @@ public class RecipeIngredient {
 
     public void setRecipe(Recipe recipe) {
         this.recipe = recipe;
+    }
+
+    public Ingredient getIngredient() {
+        return ingredient;
+    }
+
+    public void setIngredient(Ingredient ingredient) {
+        this.ingredient = ingredient;
     }
 
     public short getAmount() {
@@ -66,4 +65,3 @@ public class RecipeIngredient {
         isChecked = checked;
     }
 }
-

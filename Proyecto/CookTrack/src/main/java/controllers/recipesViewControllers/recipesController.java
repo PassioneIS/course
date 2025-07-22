@@ -4,130 +4,121 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.Recipe;
 import services.BookRecipeService;
+import services.PDFService;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-
-import javafx.stage.Modality;
-
-import services.PDFService;
 
 public class recipesController {
 
     @FXML
     private VBox recipesVbox;
-
     @FXML
     private Button btnAddRecipe;
-
     @FXML
     private Button btnGoBack;
 
-    private final Map<String, Parent> loadedViews = new HashMap<>();
+    private boolean selectionMode = false;
+    private Recipe selectedRecipe = null;
+    private final BookRecipeService bookRecipeService;
 
-    @FXML
-    public void initialize() {
-
-        listRecipes();
-
-        btnAddRecipe.setOnAction(event -> {
-            onAddRecipe(event);
-        });
-
-        btnGoBack.setOnAction(event -> {
-            onGoBack(event);
-        });
-
+    public recipesController() {
+        this.bookRecipeService = new BookRecipeService();
     }
 
     @FXML
-    private void listRecipes() {
+    public void initialize() {
+        listRecipes();
+        btnAddRecipe.setOnAction(this::onAddRecipe);
+        btnGoBack.setOnAction(this::onGoBack);
+    }
 
-        BookRecipeService bookRecipeService = new BookRecipeService();
+    public void setSelectionMode(boolean mode) {
+        this.selectionMode = mode;
+        listRecipes(); // Redibuja la lista para mostrar los botones correctos
+    }
+
+    public Recipe getSelectedRecipe() {
+        return selectedRecipe;
+    }
+
+    private void listRecipes() {
         List<Recipe> recipesList = bookRecipeService.getAllRecipes();
 
+        recipesVbox.getChildren().clear();
         for (Recipe recipe : recipesList) {
-
             HBox hbox = new HBox(10);
             hbox.setStyle("-fx-background-color: #ffffff;" + "-fx-padding: 15;" + "-fx-background-radius: 8;" + "-fx-border-radius: 8;" + "-fx-border-color: #dddddd;" + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);");
 
-            Label nameLabel = new Label("Nombre:" + recipe.getName());
+            Label nameLabel = new Label("Nombre: " + recipe.getName());
             nameLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #333333;");
-
-            Label prepTimeLabel = new Label("Tiempo de preparacion:" + recipe.getPreptime());
+            Label prepTimeLabel = new Label("Tiempo de preparación: " + recipe.getPreptime());
             prepTimeLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 13;");
 
-            Label idLabel = new Label("id:" + recipe.getId());
-            idLabel.setStyle("-fx-text-fill: #999999; -fx-font-size: 12;");
+            HBox buttonsBox = new HBox(5);
+            if (selectionMode) {
+                Button selectButton = new Button("Seleccionar");
+                selectButton.setOnAction(e -> handleRecipeAction(recipe, e));
+                buttonsBox.getChildren().add(selectButton);
+            } else {
+                Button btnSeeMore = new Button("Ver más");
+                btnSeeMore.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
+                btnSeeMore.setOnAction(e -> onSeeMore(recipe, e));
 
-            Button btnSeeMore = new Button("Ver más");
-            btnSeeMore.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
-            btnSeeMore.setOnAction(e -> onSeeMore(recipe, e));
+                Button btnPDF = new Button("Descargar");
+                btnPDF.setStyle("-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
+                btnPDF.setOnAction(e -> onDownloadPDF(recipe, e));
 
-            Button btnPDF = new Button("Descargar");
-            btnPDF.setStyle("-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5; -fx-font-weight: bold;");
-            btnPDF.setOnAction(e -> ondownloadPDF(recipe, e));
+                buttonsBox.getChildren().addAll(btnSeeMore, btnPDF);
+            }
 
-
-            hbox.getChildren().addAll(nameLabel, prepTimeLabel, idLabel, btnSeeMore, btnPDF);
-
+            hbox.getChildren().addAll(nameLabel, prepTimeLabel, buttonsBox);
             recipesVbox.getChildren().add(hbox);
         }
     }
 
-    @FXML
-    private void onSeeMore(Recipe recipe, Event event) {
-        System.out.println("onSeeMore" + recipe.getName());
+    private void handleRecipeAction(Recipe recipe, Event event) {
+        if (selectionMode) {
+            this.selectedRecipe = recipe;
+            closeWindow(event);
+        }
+    }
 
+    private void onSeeMore(Recipe recipe, Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/seeRecipeView.fxml"));
             Scene scene = new Scene(loader.load());
-
             seeRecipeController controller = loader.getController();
             controller.viewRecipe(recipe);
 
             Stage newStage = new Stage();
             newStage.setScene(scene);
             newStage.centerOnScreen();
-            newStage.setTitle("Receta");
-
-            //bloquear la ventana anterior hasta que esta se cierre
+            newStage.setTitle("Receta: " + recipe.getName());
             newStage.initModality(Modality.APPLICATION_MODAL);
-
-            newStage.show();
-
+            newStage.showAndWait();
 
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
 
-    @FXML
-    private void ondownloadPDF(Recipe recipe, Event event){
-        System.out.println("ondownloadPDF" + recipe.getName());
-
+    private void onDownloadPDF(Recipe recipe, Event event) {
         PDFService pdfService = new PDFService();
-
         pdfService.downloadPDF(recipe);
-
-        System.out.println("Se descargo la receta " + recipe.getName());
-
+        System.out.println("Se descargó la receta " + recipe.getName());
     }
 
-    @FXML
     private void onAddRecipe(Event event) {
-
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/addRecipeView.fxml"));
             Scene scene = new Scene(loader.load());
@@ -136,34 +127,29 @@ public class recipesController {
             newStage.setScene(scene);
             newStage.centerOnScreen();
             newStage.setTitle("Agregar Receta");
-
             newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.showAndWait();
+            listRecipes();
 
-            newStage.show();
-
-            System.out.println("onAddRecipe");
         } catch (Exception e) {
             e.printStackTrace();
         }
-
     }
 
-    @FXML
-    public void onGoBack(Event event) {
+    private void onGoBack(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/mainView.fxml"));
             Scene scene = new Scene(loader.load());
-
             Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.setMaximized(true);
             stage.show();
-            System.out.println("onGoBack to Main");
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
 
-
+    private void closeWindow(Event event) {
+        Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        stage.close();
+    }
 }
