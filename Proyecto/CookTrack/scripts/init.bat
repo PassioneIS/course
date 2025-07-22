@@ -37,11 +37,19 @@ if %ERRORLEVEL% NEQ 0 (
     echo La base de datos cooktrack_dev ya existe.
 )
 
-:: Ejecutar schema.sql
-echo === Ejecutando schema.sql ===
+:: Ejecutar init.sql
+echo === Ejecutando init.sql ===
 psql -U %pg_user% -d cooktrack_dev -f sql\init.sql
 if %ERRORLEVEL% NEQ 0 (
-    echo [ERROR] Fallo al ejecutar schema.sql.
+    echo [ERROR] Fallo al ejecutar init.sql.
+    exit /b 1
+)
+
+:: Ejecutar data.sql
+echo == Ejecutando data.sql ===
+psql -U %pg_user% -d cooktrack_dev -f sql\data.sql
+if %ERRORLEVEL% NEQ 0 (
+    echo [ERROR] Fallo al ejecutar data.sql.
     exit /b 1
 )
 

@@ -12,7 +12,7 @@ COOKTRACK es un sistema de planificación de menús diarios que permite a los us
 ## 🚀 **Requisitos previos**
 
 - **Windows 10 o superior** 
-- **Java 17 o superior**
+- **Java 24 o superior**
 - **Maven 3.6 o superior en el PATH**
 - **PostgreSQL** configurado con usuario
 - **psql** en el PATH (para scripts de inicialización)

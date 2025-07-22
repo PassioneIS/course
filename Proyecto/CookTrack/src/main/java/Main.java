@@ -16,6 +16,7 @@ public class Main extends Application {
     public void start(Stage primaryStage) {
         this.primaryStage = primaryStage;
 
+        signupService.ensureAdminUser();
         showLoadingScreen();
     }
 
