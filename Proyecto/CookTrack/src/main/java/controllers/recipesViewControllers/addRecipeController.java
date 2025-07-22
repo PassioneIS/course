@@ -42,7 +42,7 @@ public class addRecipeController {
     @FXML
     private Button btnCreateRecipe;
 
-    private final List<ComboBox<Ingredient>> ingredientComboBoxes = new ArrayList<>();
+    private final List<ComboBox<String>> ingredientComboBoxes = new ArrayList<>();
     private final List<TextField> ingredientAmountFields = new ArrayList<>();
     private final List<TextField> stepFields = new ArrayList<>();
     private final List<TextField> tagFields = new ArrayList<>();
@@ -76,11 +76,19 @@ public class addRecipeController {
     }
 
     private void addIngredientFields(Ingredient ingredient, String amount) {
-        ComboBox<Ingredient> newIngredientCombo = new ComboBox<>();
+        ComboBox<String> newIngredientCombo = new ComboBox<>();
         newIngredientCombo.setPromptText("Seleccione ingrediente");
-        newIngredientCombo.getItems().addAll(ingredientService.getIngredients());
+
+        List<Ingredient> ingredientList = ingredientService.getIngredients();
+        List<String> ingredientsNames = new ArrayList<>();
+
+        for (Ingredient ingredientInList : ingredientList) {
+            ingredientsNames.add(ingredientInList.getName());
+        }
+
+        newIngredientCombo.getItems().addAll(ingredientsNames);
         if (ingredient != null) {
-            newIngredientCombo.setValue(ingredient);
+            newIngredientCombo.setValue(ingredient.getName());
         }
         TextField newAmountField = new TextField(amount);
         newAmountField.setPromptText("Cantidad");
@@ -115,7 +123,14 @@ public class addRecipeController {
         // Aquí iría la lógica de validación de tu compañero, si quieres la añadimos después.
         String name = txtRecipeName.getText();
         Integer prepTime = Integer.parseInt(txtRecipeTime.getText());
-        List<Ingredient> ingredients = ingredientComboBoxes.stream().map(ComboBox::getValue).collect(Collectors.toList());
+        List<String> ingredientsName = ingredientComboBoxes.stream().map(ComboBox::getValue).collect(Collectors.toList());
+
+        List<Ingredient> ingredients = new ArrayList<>();
+
+        for (String ingredientNameInList :  ingredientsName) {
+            ingredients.add(ingredientService.getIngredientByName(ingredientNameInList));
+        }
+        
         List<Short> amounts = ingredientAmountFields.stream().map(tf -> Short.parseShort(tf.getText())).collect(Collectors.toList());
         List<String> steps = stepFields.stream().map(TextField::getText).collect(Collectors.toList());
         List<String> tags = tagFields.stream().map(TextField::getText).collect(Collectors.toList());
