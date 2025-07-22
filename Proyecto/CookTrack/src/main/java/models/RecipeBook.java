@@ -1,6 +1,7 @@
 package models;
 
 import jakarta.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "recipe_book")
@@ -13,6 +14,9 @@ public class RecipeBook {
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    @OneToMany(mappedBy = "recipeBook", fetch = FetchType.EAGER)
+    private List<RecipeBookRecipe> recipeBookRecipes;
 
     public User getUser() {
         return user;
@@ -28,5 +32,13 @@ public class RecipeBook {
 
     public void setId(Short id) {
         this.id = id;
+    }
+
+    public List<RecipeBookRecipe> getRecipeBookRecipes() {
+        return recipeBookRecipes;
+    }
+
+    public void setRecipeBookRecipes(List<RecipeBookRecipe> recipeBookRecipes) {
+        this.recipeBookRecipes = recipeBookRecipes;
     }
 }

@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<<<<<<< HEAD
+<?import javafx.scene.layout.Region?>
+=======
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
+<?import javafx.scene.text.Font?>
+
+<BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CalendarController">
+    <padding>
+        <Insets bottom="20.0" left="20.0" right="20.0" top="20.0" />
+    </padding>
+    <top>
+        <HBox alignment="CENTER" spacing="20.0" BorderPane.alignment="CENTER">
+            <children>
+                <Button mnemonicParsing="false" onAction="#previousMonth" text="&lt;" />
+                <Label fx:id="monthYearLabel" text="Mes Año">
+                    <font>
+                        <Font name="System Bold" size="24.0" />
+                    </font>
+                </Label>
+                <Button mnemonicParsing="false" onAction="#nextMonth" text="&gt;" />
+<<<<<<< HEAD
+                <Region HBox.hgrow="ALWAYS" />
+                <Button mnemonicParsing="false" onAction="#importCalendarAction" text="Importar" />
+                <Button mnemonicParsing="false" onAction="#exportCalendarAction" text="Exportar" />
+=======
+>>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
+            </children>
+            <padding>
+                <Insets bottom="10.0" />
+            </padding>
+        </HBox>
+    </top>
+    <center>
+        <GridPane fx:id="calendarGrid" gridLinesVisible="true" />
+    </center>
+    <bottom>
+        <HBox alignment="CENTER" spacing="10.0" BorderPane.alignment="CENTER">
+            <children>
+                <Label text="Generar lista de compras desde:" />
+                <DatePicker fx:id="startDatePicker" />
+                <Label text="hasta:" />
+                <DatePicker fx:id="endDatePicker" />
+                <Button mnemonicParsing="false" onAction="#generateShoppingList" text="Generar" />
+            </children>
+            <padding>
+                <Insets top="20.0" />
+            </padding>
+        </HBox>
+    </bottom>
+</BorderPane>

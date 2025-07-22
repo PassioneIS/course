@@ -1,7 +1,9 @@
 package dao.impl;
 
 import dao.interfaces.RecipeBookDao;
+import infrastructure.DataBaseConnection;
 import models.RecipeBook;
+
 import java.util.List;
 
 import org.hibernate.Session;
@@ -18,7 +20,12 @@ public class RecipeBookDaoImpl extends DaoImpl<RecipeBook,Integer>  implements R
 
     @Override
     public List<RecipeBook> findByUserId(int userId) {
-        return List.of();
+        try (Session session = DataBaseConnection.getSession()) {
+            String hql = "FROM RecipeBook rb WHERE rb.user.id = :userId";
+            Query<RecipeBook> query = session.createQuery(hql, RecipeBook.class);
+            query.setParameter("userId", userId);
+            return query.list();
+        }
     }
 
     @Override
@@ -54,7 +61,5 @@ public class RecipeBookDaoImpl extends DaoImpl<RecipeBook,Integer>  implements R
             e.printStackTrace();
         }
     }
-
-
 
 }

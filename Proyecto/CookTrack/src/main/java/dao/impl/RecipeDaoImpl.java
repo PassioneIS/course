@@ -16,8 +16,6 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
         super(Recipe.class);
     }
 
-    //static Session session = DataBaseConnection.getSession();
-
     public Recipe createRecipe(String name, Integer prepTime){
         Recipe recipe = new Recipe();
         recipe.setName(name);
@@ -28,27 +26,29 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
 
     @Override
     public void save(Recipe recipe) {
-        try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
-            Transaction transaction = session.beginTransaction();
-
-            System.out.println("Persistiendo: " + recipe);
-
+        Transaction transaction = null;
+        try (Session session = DataBaseConnection.getSession()) {
+            transaction = session.beginTransaction();
             session.persist(recipe);
             transaction.commit();
-
             System.out.println("Se guardo la receta:" + recipe);
-        }
-        catch (Exception e) {
-            System.err.println("Error al guardar la Receta:" + recipe);
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
             e.printStackTrace();
         }
     }
 
     @Override
     public List<Recipe> findByName(String name) {
-        return List.of();
+        try (Session session = DataBaseConnection.getSession()) {
+            String hql = "FROM Recipe r WHERE r.name = :recipeName";
+            Query<Recipe> query = session.createQuery(hql, Recipe.class);
+            query.setParameter("recipeName", name);
+            return query.list();
+        }
     }
-
 
     @Override
     public Recipe findById(Integer integer) {
@@ -56,6 +56,7 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
             Query<Recipe> query = session.createQuery("FROM Recipe WHERE id = :integer", Recipe.class);
             query.setParameter("integer", integer);
             return query.uniqueResult();
+
         }
     }
 
@@ -71,7 +72,6 @@ public class RecipeDaoImpl extends DaoImpl<Recipe, Integer> implements RecipeDao
             return query.list();
         }
     }
-
 
     public void update(Recipe entity){
 
