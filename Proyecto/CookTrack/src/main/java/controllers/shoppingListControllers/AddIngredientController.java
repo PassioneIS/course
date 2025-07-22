@@ -3,6 +3,7 @@ package controllers.shoppingListControllers;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
@@ -113,4 +114,9 @@ public class AddIngredientController {
         return amount;
     }
 
+    public void handleCancel(ActionEvent actionEvent) {
+        // Cierra la ventana
+        Stage stage = (Stage) ingredientComboBox.getScene().getWindow();
+        stage.close();
+    }
 }

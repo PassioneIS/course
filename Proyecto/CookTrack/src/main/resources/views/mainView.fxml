@@ -20,11 +20,12 @@
             <Button fx:id="calendarServiceButton" prefWidth="150"
                     style="-fx-background-color: #2196F3; -fx-text-fill: white; -fx-background-radius: 5;"
                     text="Calendario"/>
-            <Button fx:id="feedServiceButtton" prefWidth="150"
-                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5;" text="Feed"/>
+
             <Button fx:id="shoppingListServiceButton" prefWidth="150"
                     style="-fx-background-color: #9C27B0; -fx-text-fill: white; -fx-background-radius: 5;"
                     text="Lista de compras"/>
+            <Button fx:id="feedServiceButtton" prefWidth="150"
+                    style="-fx-background-color: #FF9800; -fx-text-fill: white; -fx-background-radius: 5;" text="Feed"/>
 
             <!-- Espaciador -->
             <Pane HBox.hgrow="ALWAYS"/>
