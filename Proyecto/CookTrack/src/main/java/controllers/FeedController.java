@@ -10,6 +10,9 @@ import services.FeedService;
 
 import java.util.List;
 
+import javafx.scene.control.ListCell;
+import java.time.format.DateTimeFormatter;
+
 public class FeedController {
 
     @FXML
@@ -31,11 +34,37 @@ public class FeedController {
         loadPosts(); // Cambiamos el nombre del método para más claridad
     }
 
+    @FXML
     private void loadPosts() {
         // El servicio ahora nos da una lista de Posts
         List<Post> posts = feedService.getPosts(null);
         System.out.println(posts.size());// Llamamos al método correcto
         ObservableList<Post> observablePosts = FXCollections.observableArrayList(posts);
         recipeListView.setItems(observablePosts);
+
+        //System.out.println(posts.get(0).getRecipe()); // Asegúrate que tenga contenido
+        //observablePosts.forEach(post -> System.out.println(post.getRecipe())); // ¿Muestra algo?
     }
+
+    private class RecipeListCell extends ListCell<Post> {
+        @Override
+        protected void updateItem(Post post, boolean empty) {
+            super.updateItem(post, empty);
+            if (empty || post == null) {
+                setText(null);
+                setGraphic(null);
+            } else {
+
+                DateTimeFormatter formated = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                String postRecipeName = post.getRecipe().getName();
+                String postRating = Double.toString(post.getAverageRating());
+                String postDate = (post.getPublishedAt()).format(formated);
+
+                setText("Receta " + postRecipeName + "              Rating:" + postRating + "             Fecha de publicación:" + postDate );
+            }
+        }
+    }
+
+
 }
