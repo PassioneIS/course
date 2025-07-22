@@ -107,9 +107,14 @@ public class recipesController {
             addRecipeController controller = loader.getController();
             controller.setRecipeToEdit(recipe);
 
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
+            Stage newStage = new Stage();
+            newStage.setScene(scene);
+            newStage.centerOnScreen();
+            newStage.setTitle("Receta: " + recipe.getName());
+            newStage.initModality(Modality.APPLICATION_MODAL);
+            newStage.showAndWait();
+
+
         } catch (IOException e) {
             e.printStackTrace();
         }
