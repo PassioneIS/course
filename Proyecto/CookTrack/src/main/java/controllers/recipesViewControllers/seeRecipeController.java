@@ -46,7 +46,6 @@ public class seeRecipeController {
         //viewRecipe();
 
         btnGoBack.setOnAction(event -> {
-            //onGoBack(event);
             onClose(event);
         });
 
@@ -124,20 +123,6 @@ public class seeRecipeController {
             onChangeFavorite(recipeBookRecipe.isFavorite());
             bookRecipeService.changeFavorite(recipeBookRecipe);
         });
-    }
-
-    @FXML
-    public void onGoBack(Event event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.setScene(scene);
-            stage.show();
-            System.out.println("onGoBack");
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     @FXML

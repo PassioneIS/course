@@ -144,13 +144,7 @@ public class addRecipeController {
     }
 
     private void onGoBack(Event event) {
-        try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
-            Scene scene = new Scene(loader.load());
-            Stage stage = (Stage) btnGoBack.getScene().getWindow();
-            stage.setScene(scene);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        Stage stage = (Stage) btnGoBack.getScene().getWindow();
+        stage.close();
     }
 }
