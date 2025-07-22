@@ -65,6 +65,22 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
     }
 
     @Override
+    public void deleteByRecipeId(Integer recipeId) {
+        Transaction transaction = null;
+        try (Session session = DataBaseConnection.getSession()) {
+            transaction = session.beginTransaction();
+            String hql = "DELETE FROM RecipeIngredient WHERE recipe.id = :recipeId";
+            session.createMutationQuery(hql).setParameter("recipeId", recipeId).executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
+    @Override
     public List<RecipeIngredient> findByRecipeId(int recipeId) {
         return List.of();
     }

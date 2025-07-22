@@ -1,20 +1,17 @@
 package dao.impl;
 
 import dao.interfaces.RecipeBookRecipeDao;
+import infrastructure.DataBaseConnection;
+import models.Recipe;
+import models.RecipeBook;
 import models.RecipeBookRecipe;
-
-import java.util.List;
-
-import infrastructure.SessionManager;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.query.Query;
-import infrastructure.DataBaseConnection;
 
-import models.Recipe;
-import models.RecipeBook;
+import java.util.List;
 
-public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> implements RecipeBookRecipeDao {
+public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe, Integer> implements RecipeBookRecipeDao {
 
     public RecipeBookRecipeDaoImpl() {
         super(RecipeBookRecipe.class);
@@ -22,15 +19,26 @@ public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> i
 
     @Override
     public List<RecipeBookRecipe> findByRecipeBookId(int recipeBookId) {
+        // Lógica futura...
         return List.of();
     }
 
     @Override
     public List<RecipeBookRecipe> findFavoritesByRecipeBookId(int recipeBookId) {
+        // Lógica futura...
         return List.of();
     }
 
     @Override
+    public RecipeBookRecipe findByRecipeId(int recipeId) {
+        try (Session session = DataBaseConnection.getSession()) {
+            String hql = "FROM RecipeBookRecipe rbr WHERE rbr.recipe.id = :recipeId";
+            Query<RecipeBookRecipe> query = session.createQuery(hql, RecipeBookRecipe.class);
+            query.setParameter("recipeId", recipeId);
+            return query.uniqueResult();
+        }
+    }
+
     public RecipeBookRecipe findRecipeBookRecipeByRecipe(Recipe recipe){
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Query<RecipeBookRecipe> query = session.createQuery("FROM RecipeBookRecipe WHERE recipe = :recipe", RecipeBookRecipe.class);
@@ -39,17 +47,13 @@ public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> i
         }
     }
 
-    @Override
     public RecipeBookRecipe createRecipeBookRecipe(RecipeBook recipeBook, Recipe recipe, List<String> nametag){
         RecipeBookRecipe recipeBookRecipe = new RecipeBookRecipe();
         recipeBookRecipe.setRecipeBook(recipeBook);
         recipeBookRecipe.setRecipe(recipe);
         recipeBookRecipe.setFavorite(false);
         recipeBookRecipe.setPublic(false);
-
-        for(String tag : nametag){
-            recipeBookRecipe.addNametag(tag);
-        }
+        recipeBookRecipe.setNametag(nametag);
         return recipeBookRecipe;
     }
 
@@ -57,16 +61,10 @@ public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> i
     public void save(RecipeBookRecipe recipeBookRecipe){
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-
-            System.out.println("Persistiendo: " + recipeBookRecipe);
-
             session.persist(recipeBookRecipe);
             transaction.commit();
-
-            System.out.println("Se guardo la recipeBookrecipe:" + recipeBookRecipe);
         }
         catch (Exception e) {
-            System.err.println("Error al guardar la recipeBookrecipe:" + recipeBookRecipe);
             e.printStackTrace();
         }
     }
@@ -75,18 +73,11 @@ public class RecipeBookRecipeDaoImpl extends DaoImpl<RecipeBookRecipe,Integer> i
     public void update(RecipeBookRecipe recipeBookRecipe){
         try (Session session = DataBaseConnection.getSessionFactory().openSession()) {
             Transaction transaction = session.beginTransaction();
-
-            System.out.println("Persistiendo: " + recipeBookRecipe);
-
             session.merge(recipeBookRecipe);
             transaction.commit();
-
-            System.out.println("Se guardo la recipeBookrecipe:" + recipeBookRecipe);
         }
         catch (Exception e) {
-            System.err.println("Error al guardar la recipeBookrecipe:" + recipeBookRecipe);
             e.printStackTrace();
         }
     }
-
 }

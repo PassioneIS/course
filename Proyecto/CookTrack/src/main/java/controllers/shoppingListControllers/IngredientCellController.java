@@ -2,30 +2,31 @@ package controllers.shoppingListControllers;
 
 import javafx.fxml.FXML;
 import javafx.scene.control.CheckBox;
-import javafx.scene.text.Text;
+import javafx.scene.control.Label;
 import models.RecipeIngredient;
 
 public class IngredientCellController {
 
     @FXML
     private CheckBox checkBox;
+    @FXML
+    private Label nameLabel;
+    @FXML
+    private Label amountLabel;
+
+    private RecipeIngredient recipeIngredient;
+
+    public void setData(RecipeIngredient recipeIngredient) {
+        this.recipeIngredient = recipeIngredient;
+        nameLabel.setText(recipeIngredient.getIngredient().getName());
+        amountLabel.setText(String.valueOf(recipeIngredient.getAmount()));
+        checkBox.setSelected(recipeIngredient.isChecked());
+    }
 
     @FXML
-    private Text cantidadText;
-
-    private RecipeIngredient ingrediente;
-
-    public void setIngrediente(RecipeIngredient ingrediente) {
-        this.ingrediente = ingrediente;
-
-        if (ingrediente != null) {
-            checkBox.setText(ingrediente.getIngredient().getName());
-            cantidadText.setText(ingrediente.getAmount() + " g/u");
-            checkBox.setSelected(false);
-
-            checkBox.setOnAction(e -> {
-                ingrediente.setChecked(checkBox.isSelected());
-            });
+    private void onCheckBoxAction() {
+        if (recipeIngredient != null) {
+            recipeIngredient.setChecked(checkBox.isSelected());
         }
     }
 }

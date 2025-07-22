@@ -34,7 +34,6 @@ public class RecipeBookRecipe {
             name = "nametag",
             columnDefinition = "varchar(31)[]"
     )
-
     private List<String> nametag = new ArrayList<>();
 
     public int getId() {
@@ -65,8 +64,8 @@ public class RecipeBookRecipe {
         return nametag;
     }
 
-    public void addNametag(String nametag) {
-        this.nametag.add(nametag);
+    public void setNametag(List<String> nametag) {
+        this.nametag = nametag;
     }
 
     public boolean isFavorite() {

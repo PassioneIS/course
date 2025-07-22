@@ -12,6 +12,8 @@ public interface RecipeStepDao extends DAO<RecipeStep, Integer> {
 
     void save(RecipeStep recipeStep);
 
+    void deleteByRecipeId(Integer recipeId);
+
     List<RecipeStep> findByRecipeIdOrderByPosition(Recipe recipe);
 
 }

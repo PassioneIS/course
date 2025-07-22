@@ -13,6 +13,8 @@ public interface RecipeIngredientDao extends DAO<RecipeIngredient, RecipeIngredi
 
     void save(RecipeIngredient recipeIngredient);
 
+    void deleteByRecipeId(Integer recipeId);
+
     List<RecipeIngredient> findByRecipeId(int recipeId);
 
     List<RecipeIngredient> findByIngredientId(int ingredientId);

@@ -10,299 +10,132 @@ import javafx.scene.control.ComboBox;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
-import models.Ingredient;
+import models.*;
 import services.BookRecipeService;
 import services.IngredientService;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class addRecipeController {
 
     @FXML
     private Button btnGoBack;
-
     @FXML
     private TextField txtRecipeName;
-
     @FXML
     private TextField txtRecipeTime;
-
     @FXML
     private VBox recipeContainer;
-
     @FXML
     private Button btnAddIngredient;
-
-    private final List<ComboBox> ingredientList = new ArrayList<>();
-    private final List<TextField> ingredientAmountList = new ArrayList<>();
-
     @FXML
     private VBox stepContainer;
-
     @FXML
     private Button btnAddStep;
-
-    private final List<TextField> recipeStepsList = new ArrayList<>();
-
     @FXML
     private VBox tagContainer;
-
     @FXML
     private Button btnAddTag;
-
-    private final List<TextField> tagsList = new ArrayList<>();
-
-    private final IngredientService ingredientService = new IngredientService();
-
     @FXML
     private Button btnCreateRecipe;
 
+    private final List<ComboBox<Ingredient>> ingredientComboBoxes = new ArrayList<>();
+    private final List<TextField> ingredientAmountFields = new ArrayList<>();
+    private final List<TextField> stepFields = new ArrayList<>();
+    private final List<TextField> tagFields = new ArrayList<>();
+    private final IngredientService ingredientService = new IngredientService();
+    private final BookRecipeService bookRecipeService = new BookRecipeService();
+    private Recipe recipeToEdit = null;
+
     @FXML
     public void initialize() {
-
-        btnGoBack.setOnAction(event -> {
-            //onGoBack(event);
-            onClose(event);
-        });
-
-        btnAddIngredient.setOnAction(event -> {
-            onAddIngredient(event);
-        });
-
-        btnAddStep.setOnAction(event -> {
-            onAddStep(event);
-        });
-
-        btnAddTag.setOnAction(event -> {
-            onAddTag(event);
-        });
-
-        btnCreateRecipe.setOnAction(event -> {
-            boolean validRecipe = onValidRecipe(event);
-
-            if (validRecipe) {
-                System.out.println("La receta es valida");
-                onSaveRecipe(event);
-            } else {
-                System.out.println("La receta NO es valida :c");
-            }
-        });
-
+        btnAddIngredient.setOnAction(this::onAddIngredient);
+        btnAddStep.setOnAction(this::onAddStep);
+        btnAddTag.setOnAction(this::onAddTag);
+        btnGoBack.setOnAction(this::onGoBack);
+        btnCreateRecipe.setOnAction(event -> handleSave());
     }
 
-    @FXML
-    private void onListRecipe(ComboBox combobox) {
-
-        List<Ingredient> ingredients = ingredientService.getIngredients();
-        List<String> ingredientsNames = new ArrayList<>();
-
-        for (Ingredient ingredient : ingredients) {
-            ingredientsNames.add(ingredient.getName());
-        }
-
-        if (ingredients.size() > 0) {
-            System.out.println("La lista de ingredientes NO esta vacia! :D");
-
-            combobox.getItems().addAll(ingredientsNames);
-        } else {
-            System.out.println("La lista de ingredientes esta vacia! :c");
-        }
+    public void setRecipeToEdit(Recipe recipe) {
+        this.recipeToEdit = recipe;
+        btnCreateRecipe.setText("Guardar Cambios");
+        populateForm();
     }
 
-    @FXML
+    private void populateForm() {
+        if (recipeToEdit == null) return;
+        txtRecipeName.setText(recipeToEdit.getName());
+        txtRecipeTime.setText(recipeToEdit.getPreptime().toString());
+    }
+
     private void onAddIngredient(Event event) {
-        ComboBox newIngredient = new ComboBox();
-        newIngredient.setPromptText("Seleccione un ingrediente");
-        newIngredient.setStyle("-fx-background-radius: 5; -fx-padding: 5; -fx-background-color: #4CAF50;");
-
-        TextField newIngredientAmount = new TextField();
-        newIngredientAmount.setPromptText("Ingrese la cantidad del ingrediente");
-        newIngredientAmount.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
-
-        recipeContainer.getChildren().add(newIngredient);
-        recipeContainer.getChildren().add(newIngredientAmount);
-
-        onListRecipe(newIngredient);
-
-        ingredientList.add(newIngredient);
-        ingredientAmountList.add(newIngredientAmount);
-
-
-        System.out.println("Creado nuevo combobox!");
+        addIngredientFields(null, "");
     }
 
-    @FXML
+    private void addIngredientFields(Ingredient ingredient, String amount) {
+        ComboBox<Ingredient> newIngredientCombo = new ComboBox<>();
+        newIngredientCombo.setPromptText("Seleccione ingrediente");
+        newIngredientCombo.getItems().addAll(ingredientService.getIngredients());
+        if (ingredient != null) {
+            newIngredientCombo.setValue(ingredient);
+        }
+        TextField newAmountField = new TextField(amount);
+        newAmountField.setPromptText("Cantidad");
+        recipeContainer.getChildren().addAll(newIngredientCombo, newAmountField);
+        ingredientComboBoxes.add(newIngredientCombo);
+        ingredientAmountFields.add(newAmountField);
+    }
+
     private void onAddStep(Event event) {
-        TextField newStep = new TextField();
-        newStep.setPromptText("Ingrese el nuevo paso");
-        newStep.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
-
-        stepContainer.getChildren().add(newStep);
-        recipeStepsList.add(newStep);
-
-        System.out.println("Creado nuevo paso!");
+        addStepField("");
     }
 
-    @FXML
+    private void addStepField(String text) {
+        TextField newStepField = new TextField(text);
+        newStepField.setPromptText("Describa el paso");
+        stepContainer.getChildren().add(newStepField);
+        stepFields.add(newStepField);
+    }
+
     private void onAddTag(Event event) {
-        TextField newTag = new TextField();
-        newTag.setPromptText("Ingrese la etiqueta");
-        newTag.setStyle("-fx-background-radius: 5; -fx-padding: 5;");
-
-        tagContainer.getChildren().add(newTag);
-        tagsList.add(newTag);
-
-        System.out.println("Creada nueva etiqueta!");
+        addTagField("");
     }
 
+    private void addTagField(String text) {
+        TextField newTagField = new TextField(text);
+        newTagField.setPromptText("Ingrese la etiqueta");
+        tagContainer.getChildren().add(newTagField);
+        tagFields.add(newTagField);
+    }
 
-    @FXML
-    public void onGoBack(Event event) {
+    private void handleSave() {
+        // Aquí iría la lógica de validación de tu compañero, si quieres la añadimos después.
+        String name = txtRecipeName.getText();
+        Integer prepTime = Integer.parseInt(txtRecipeTime.getText());
+        List<Ingredient> ingredients = ingredientComboBoxes.stream().map(ComboBox::getValue).collect(Collectors.toList());
+        List<Short> amounts = ingredientAmountFields.stream().map(tf -> Short.parseShort(tf.getText())).collect(Collectors.toList());
+        List<String> steps = stepFields.stream().map(TextField::getText).collect(Collectors.toList());
+        List<String> tags = tagFields.stream().map(TextField::getText).collect(Collectors.toList());
+
+        if (recipeToEdit != null) {
+            bookRecipeService.updateRecipe(recipeToEdit, name, prepTime, ingredients, amounts, steps, tags);
+        } else {
+            bookRecipeService.createRecipe(name, prepTime, ingredients, amounts, steps, tags);
+        }
+        onGoBack(null);
+    }
+
+    private void onGoBack(Event event) {
         try {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/views/RecipesViews/recipesView.fxml"));
             Scene scene = new Scene(loader.load());
-
-            // Obtener el Stage actual y cambiar la escena
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+            Stage stage = (Stage) btnGoBack.getScene().getWindow();
             stage.setScene(scene);
-            stage.centerOnScreen();
-            stage.setMaximized(true);
-            stage.show();
-            System.out.println("onGoBack");
-        } catch (Exception e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
-
-
-    @FXML
-    public void onClose(Event event) {
-        try {
-            Stage stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            stage.close();
-
-            System.out.println("OnClose addRecipe");
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    @FXML
-    private boolean onValidRecipe(Event event) {
-
-        boolean validRecipe;
-
-        try {
-
-            boolean validRecipeName = txtRecipeName.getText().length() > 0;
-
-            boolean validRecipeTime = Integer.valueOf(txtRecipeTime.getText()) >= 1;
-
-            boolean validRecipeIngredients = ingredientAmountList.size() >= 1;
-            for (int i = 0; i < ingredientList.size(); i++) {
-                if (ingredientList.get(i).getValue().toString().length() <= 0) {
-                    validRecipeIngredients = false;
-                }
-            }
-
-            boolean validRecipeIngredientsAmount = ingredientAmountList.size() >= 1;
-            for (int i = 0; i < ingredientAmountList.size(); i++) {
-                if (Integer.valueOf(ingredientAmountList.get(i).getText()) <= 0) {
-                    validRecipeIngredientsAmount = false;
-                }
-            }
-
-            boolean validRecipeSteps = recipeStepsList.size() >= 1;
-            for (int i = 0; i < recipeStepsList.size(); i++) {
-                if (recipeStepsList.get(i).getText().length() <= 0) {
-                    validRecipeIngredients = false;
-                }
-            }
-
-            boolean validRecipeTags = tagsList.size() >= 1;
-            for (int i = 0; i < tagsList.size(); i++) {
-                if (tagsList.get(i).getText().length() <= 0) {
-                    validRecipeTags = false;
-                }
-            }
-
-            validRecipe = validRecipeName &&
-                    validRecipeTime &&
-                    validRecipeIngredients &&
-                    validRecipeIngredientsAmount &&
-                    validRecipeSteps &&
-                    validRecipeTags;
-
-            return validRecipe;
-
-        } catch (java.lang.Exception ex) {
-            System.err.println("Dilijenciar todos campos del formulario y hacerlo correctamente: " + ex);
-
-            validRecipe = false;
-
-            return validRecipe;
-
-        }
-
-    }
-
-    @FXML
-    private void onSaveRecipe(Event event) {
-
-        String recipeName = txtRecipeName.getText();
-        System.out.println("Nombre de la receta:" + recipeName);
-
-        Integer recipeTime = Integer.valueOf(txtRecipeTime.getText());
-        System.out.println("Tiempo de preparacion:" + recipeTime);
-
-        System.out.println("Ingredientes");
-
-        List<Ingredient> listIngredients = new ArrayList<>();
-        List<Short> listIngredientsAmount = new ArrayList<>();
-
-        for (int i = 0; i < ingredientList.size(); i++) {
-            String ingredientName = ingredientList.get(i).getValue().toString();
-            Ingredient ingredient = ingredientService.getIngredientByName(ingredientName);
-            System.out.println("    Ingrediente:" + ingredient.toString());
-            listIngredients.add(ingredient);
-
-            short ingredientAmount = Short.valueOf(ingredientAmountList.get(i).getText());
-            System.out.println("        Cantidad:" + ingredientAmount);
-            listIngredientsAmount.add(ingredientAmount);
-
-        }
-
-        System.out.println("Pasos");
-        List<String> listSteps = new ArrayList<>();
-
-        for (int i = 0; i < recipeStepsList.size(); i++) {
-            System.out.println("    Paso posición:" + i);
-
-            String step = recipeStepsList.get(i).getText();
-            System.out.println("    Paso:" + step);
-            listSteps.add(step);
-        }
-
-        System.out.println("Tags");
-        List<String> listTags = new ArrayList<>();
-
-        for (int i = 0; i < tagsList.size(); i++) {
-
-            String tag = tagsList.get(i).getText();
-            System.out.println("    Tag:" + tag);
-            listTags.add(tag);
-        }
-
-        //Creacion de los modelos
-
-        BookRecipeService bookRecipeService = new BookRecipeService();
-
-        bookRecipeService.createRecipe(recipeName, recipeTime, listIngredients, listIngredientsAmount, listSteps, listTags);
-
-        //(String name, Integer prepTime, List<Ingredient> ingredientsList, List<Short> listIngredientsAmount, List<String> stepsList)
-
-    }
-
 }

@@ -31,6 +31,22 @@ public class RecipeStepDaoImpl extends DaoImpl<RecipeStep, Integer> implements R
         return recipeStep;
     }
 
+    @Override
+    public void deleteByRecipeId(Integer recipeId) {
+        Transaction transaction = null;
+        try (Session session = DataBaseConnection.getSession()) {
+            transaction = session.beginTransaction();
+            String hql = "DELETE FROM RecipeStep WHERE recipe.id = :recipeId";
+            session.createMutationQuery(hql).setParameter("recipeId", recipeId).executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            if (transaction != null) {
+                transaction.rollback();
+            }
+            e.printStackTrace();
+        }
+    }
+
 
     @Override
     public void save(RecipeStep recipeStep) {

@@ -1,25 +1,30 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import javafx.geometry.Insets?>
-<?import javafx.scene.control.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.ComboBox?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.VBox?>
-<VBox spacing="15" alignment="CENTER" xmlns:fx="http://javafx.com/fxml"
-      fx:controller="controllers.shoppingListControllers.AddIngredientController"
-      style="-fx-background-color: #f9f9f9;">
-    <padding>
-        <Insets top="25" bottom="25" left="25" right="25"/>
-    </padding>
+<?import javafx.scene.text.Font?>
 
-    <Label text="Añadir Producto" style="-fx-font-size: 18px; -fx-font-weight: bold;"/>
-
-    <Label text="Nombre del producto" style="-fx-font-size: 14px;"/>
-    <ComboBox fx:id="ingredientComboBox" promptText="Buscar ingrediente" editable="true"
-              style="-fx-pref-width: 220px;"/>
-
-    <Label text="Cantidad (g/u)" style="-fx-font-size: 14px;"/>
-    <TextField fx:id="amountField" promptText="Solo números" style="-fx-pref-width: 200px;"/>
-
-    <Button text="Añadir" onAction="#handleAdd"
-            style="-fx-background-color: #4CAF50; -fx-text-fill: white; -fx-font-weight: bold; -fx-pref-width: 120px;"/>
-
+<VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" spacing="10.0" style="-fx-padding: 20;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.shoppingListControllers.AddIngredientController">
+    <children>
+        <Label text="Añadir Ingrediente a la Lista">
+            <font>
+                <Font name="System Bold" size="16.0" />
+            </font>
+        </Label>
+        <ComboBox fx:id="ingredientComboBox" prefWidth="200.0" promptText="Selecciona un ingrediente" />
+        <TextField fx:id="amountField" prefWidth="200.0" promptText="Cantidad" />
+        <HBox alignment="CENTER" spacing="10.0">
+            <children>
+                <Button onAction="#handleAdd" prefWidth="80.0" text="Añadir" />
+                <Button onAction="#handleCancel" prefWidth="80.0" text="Cancelar" />
+            </children>
+            <VBox.margin>
+                <Insets top="10.0" />
+            </VBox.margin>
+        </HBox>
+    </children>
 </VBox>
