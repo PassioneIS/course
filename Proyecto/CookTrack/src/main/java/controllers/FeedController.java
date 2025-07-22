@@ -33,7 +33,8 @@ public class FeedController {
 
     private void loadPosts() {
         // El servicio ahora nos da una lista de Posts
-        List<Post> posts = feedService.getPosts(null); // Llamamos al método correcto
+        List<Post> posts = feedService.getPosts(null);
+        System.out.println(posts.size());// Llamamos al método correcto
         ObservableList<Post> observablePosts = FXCollections.observableArrayList(posts);
         recipeListView.setItems(observablePosts);
     }

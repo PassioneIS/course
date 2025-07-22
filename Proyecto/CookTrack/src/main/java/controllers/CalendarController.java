@@ -1,6 +1,7 @@
 package controllers;
 
 import controllers.recipesViewControllers.recipesController; // Importación corregida
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
@@ -117,5 +118,11 @@ public class CalendarController {
             alert.setContentText("Por favor, seleccione un rango de fechas válido.");
             alert.showAndWait();
         }
+    }
+
+    public void importCalendarAction(ActionEvent actionEvent) {
+    }
+
+    public void exportCalendarAction(ActionEvent actionEvent) {
     }
 }

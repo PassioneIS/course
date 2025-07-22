@@ -7,14 +7,11 @@ import jakarta.persistence.*;
 public class RecipeIngredient {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "recipe_ingredient_id")
-    private int id;
-
     @ManyToOne
     @JoinColumn(name = "recipe_id")
     private Recipe recipe;
 
+    @Id
     @ManyToOne
     @JoinColumn(name = "ingredient_id")
     private Ingredient ingredient;
@@ -24,14 +21,6 @@ public class RecipeIngredient {
 
     @Transient
     private boolean isChecked = false;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
 
     public Recipe getRecipe() {
         return recipe;

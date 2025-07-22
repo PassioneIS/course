@@ -1,5 +1,6 @@
 package controllers.recipesViewControllers;
 
+import infrastructure.SessionManager;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -54,7 +55,8 @@ public class recipesController {
     }
 
     private void listRecipes() {
-        List<Recipe> recipesList = bookRecipeService.getAllRecipes();
+        //List<Recipe> recipesList = bookRecipeService.getAllRecipes();
+        List<Recipe> recipesList = bookRecipeService.getRecipes(SessionManager.getInstance().getCurrentUser());
 
         recipesVbox.getChildren().clear();
         for (Recipe recipe : recipesList) {

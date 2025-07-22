@@ -7,10 +7,8 @@
 <?import javafx.scene.layout.BorderPane?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
-<<<<<<< HEAD
 <?import javafx.scene.layout.Region?>
-=======
->>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
+<?import javafx.scene.layout.Region?>
 <?import javafx.scene.text.Font?>
 
 <BorderPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="controllers.CalendarController">
@@ -27,12 +25,10 @@
                     </font>
                 </Label>
                 <Button mnemonicParsing="false" onAction="#nextMonth" text="&gt;" />
-<<<<<<< HEAD
                 <Region HBox.hgrow="ALWAYS" />
                 <Button mnemonicParsing="false" onAction="#importCalendarAction" text="Importar" />
                 <Button mnemonicParsing="false" onAction="#exportCalendarAction" text="Exportar" />
-=======
->>>>>>> 77a2e7fba5b2f5a35ee42aa55a0bcd2bfdc52306
+
             </children>
             <padding>
                 <Insets bottom="10.0" />

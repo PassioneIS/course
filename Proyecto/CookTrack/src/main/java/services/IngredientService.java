@@ -24,11 +24,11 @@ public class IngredientService {
     }
 
     public Ingredient getIngredientByName(String name) {
-        List<Ingredient> ingredients = ingredientDao.findByName(name);
-        if (ingredients != null && !ingredients.isEmpty()) {
+        return ingredientDao.findByName(name);
+        /*if (ingredients != null && !ingredients.isEmpty()) {
             return ingredients.get(0);
         }
-        return null;
+        return null;*/
     }
 
     public List<Ingredient> getIngredients() {

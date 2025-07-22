@@ -23,7 +23,7 @@ public class RecipeIngredientDaoImpl extends DaoImpl<RecipeIngredient, RecipeIng
 
         RecipeIngredient recipeIngredient = new RecipeIngredient();
 
-        recipeIngredient.setId(new RecipeIngredientId());
+        //recipeIngredient.setId(new RecipeIngredientId());
         recipeIngredient.setRecipe(recipe);
         recipeIngredient.setIngredient(ingredient);
         recipeIngredient.setAmount(Amount);
