@@ -155,4 +155,19 @@ public class ShoppingListController {
             }
         });
     }
+
+    public void modifyList(LocalDate startDate,LocalDate endDate) {
+
+
+        if (startDate == null || endDate == null) {
+            System.out.println("La lista de ingredientes no puede ser nula");
+            return;
+        }
+
+        ObservableList<RecipeIngredient> ingredients = FXCollections.observableArrayList(
+                shoppingListService.getShoppingList(startDate, endDate)
+        );
+
+        listViewIngredientes.setItems(ingredients);
+    }
 }

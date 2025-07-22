@@ -1,10 +1,13 @@
 package controllers;
 
 import controllers.recipesViewControllers.recipesController; // Importación corregida
+import controllers.shoppingListControllers.ShoppingListController;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.DatePicker;
@@ -44,6 +47,8 @@ public class CalendarController {
     private final CalendarService calendarService;
     private final ShoppingListService shoppingListService;
 
+    private MainController mainController;
+
     public CalendarController() {
         this.calendarService = new CalendarService();
         this.shoppingListService = ShoppingListService.getInstance();
@@ -56,6 +61,59 @@ public class CalendarController {
     }
 
     private void drawCalendar() {
+        calendarGrid.getChildren().clear();
+
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MMMM yyyy", new Locale("es", "ES"));
+        monthYearLabel.setText(currentYearMonth.format(formatter));
+
+        LocalDate firstOfMonth = currentYearMonth.atDay(1);
+        int firstDayOfWeek = firstOfMonth.getDayOfWeek().getValue();
+
+        LocalDate startDate = firstOfMonth;
+        LocalDate endDate = currentYearMonth.atEndOfMonth();
+
+        List<CalendarRecipe> calendarRecipesThisMonth = calendarService.getCalendarRecipesByDate(startDate, endDate);
+
+        Map<Integer, List<String>> recipesByDay = calendarRecipesThisMonth.stream()
+                .collect(Collectors.groupingBy(
+                        cr -> cr.getDate().getDayOfMonth(),
+                        Collectors.mapping(cr -> cr.getRecipe().getName(), Collectors.toList())
+                ));
+
+        int day = 1;
+        for (int row = 0; row < 6; row++) {
+            for (int col = 0; col < 7; col++) {
+                if (row == 0 && col < firstDayOfWeek - 1) {
+                    continue;
+                }
+                if (day > currentYearMonth.lengthOfMonth()) {
+                    break;
+                }
+
+                VBox dayCell = new VBox(10);
+                dayCell.setPadding(new Insets(5));
+                dayCell.setStyle("-fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 1;");
+
+                Label dayLabel = new Label(String.valueOf(day));
+                dayLabel.setFont(Font.font("System Bold", 20));
+                dayCell.getChildren().add(dayLabel);
+
+                if (recipesByDay.containsKey(day)) {
+                    for (String recipeName : recipesByDay.get(day)) {
+                        Label recipeLabel = new Label(recipeName);
+                        recipeLabel.setFont(Font.font("System Bold", 20));
+                        recipeLabel.setWrapText(true);
+                        dayCell.getChildren().add(recipeLabel);
+                    }
+                }
+
+                final int currentDay = day;
+                dayCell.setOnMouseClicked(event -> handleDayClick(currentDay));
+
+                calendarGrid.add(dayCell, col, row);
+                day++;
+            }
+        }
         // ... (el código para dibujar el calendario que ya teníamos)
     }
 
@@ -98,18 +156,31 @@ public class CalendarController {
     }
 
     @FXML
-    private void generateShoppingList() {
+    private void generateShoppingList(Event event) {
         LocalDate startDate = startDatePicker.getValue();
         LocalDate endDate = endDatePicker.getValue();
 
         if (startDate != null && endDate != null && !startDate.isAfter(endDate)) {
             List<RecipeIngredient> shoppingList = shoppingListService.getShoppingList(startDate, endDate);
 
+            if (shoppingList.isEmpty()) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Lista de Compras");
+                alert.setHeaderText(null);
+                alert.setContentText("No existen recetas en los dias seleccionados");
+                alert.showAndWait();
+            }
             Alert alert = new Alert(Alert.AlertType.INFORMATION);
             alert.setTitle("Lista de Compras Generada");
             alert.setHeaderText(null);
             alert.setContentText("Se generó una lista de compras con " + shoppingList.size() + " ingredientes.");
             alert.showAndWait();
+
+            //Acceder a modulo de ShoppingList y agregar la lista
+            mainController.changeScene("/views/ShoppingListViews/shoppingList.fxml");
+            ShoppingListController shoppingListController = (ShoppingListController) mainController.getController("/views/ShoppingListViews/shoppingList.fxml");
+            shoppingListController.modifyList(startDate, endDate);
+
 
         } else {
             Alert alert = new Alert(Alert.AlertType.WARNING);
@@ -118,11 +189,20 @@ public class CalendarController {
             alert.setContentText("Por favor, seleccione un rango de fechas válido.");
             alert.showAndWait();
         }
+
+
     }
 
     public void importCalendarAction(ActionEvent actionEvent) {
+        calendarService.importCalendar();
+        drawCalendar();
     }
 
     public void exportCalendarAction(ActionEvent actionEvent) {
+        calendarService.exportCalendar();
+    }
+
+    public void setMainController(MainController mainController) {
+        this.mainController = mainController;
     }
 }

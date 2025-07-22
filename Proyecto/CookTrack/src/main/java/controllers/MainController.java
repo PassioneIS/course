@@ -36,6 +36,8 @@ public class MainController {
     private MenuItem logOutButton;
 
     private final Map<String, Parent> loadedViews = new HashMap<>();
+    private final Map<String, Object> loadedControllers = new HashMap<>();
+
 
     @FXML
     public void initialize() {
@@ -56,6 +58,7 @@ public class MainController {
 
         calendarServiceButton.setOnAction(e -> {
             changeScene("/views/CalendarView.fxml");
+
         });
 
         logOutButton.setOnAction(e -> {
@@ -63,7 +66,7 @@ public class MainController {
             logOut(e);
         });
 
-        changeScene("/views/FeedView.fxml");
+        changeScene("/views/RecipesViews/recipesView.fxml");
     }
 
 
@@ -73,8 +76,16 @@ public class MainController {
             if (loadedViews.containsKey(fxml)) {
                 view = loadedViews.get(fxml);
             } else {
-                view = FXMLLoader.load(getClass().getResource(fxml));
+                FXMLLoader loader = new FXMLLoader(getClass().getResource(fxml));
+                view = loader.load();
+                Object controller = loader.getController(); // Obtener el controlador
+
+                if (controller instanceof CalendarController) {
+                    ((CalendarController) controller).setMainController(this);
+                }
+
                 loadedViews.put(fxml, view);
+                loadedControllers.put(fxml, controller);
             }
             mainScene.setCenter(view);
         } catch (IOException e) {
@@ -100,5 +111,9 @@ public class MainController {
 
     private void goToShoppinListService() {
         changeScene("/views/ShoppingListViews/shoppingList.fxml");
+    }
+
+    public Object getController(String fxml) {
+        return loadedControllers.get(fxml);
     }
 }
