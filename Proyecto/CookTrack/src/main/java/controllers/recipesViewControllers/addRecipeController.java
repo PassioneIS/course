@@ -130,7 +130,7 @@ public class addRecipeController {
         for (String ingredientNameInList :  ingredientsName) {
             ingredients.add(ingredientService.getIngredientByName(ingredientNameInList));
         }
-        
+
         List<Short> amounts = ingredientAmountFields.stream().map(tf -> Short.parseShort(tf.getText())).collect(Collectors.toList());
         List<String> steps = stepFields.stream().map(TextField::getText).collect(Collectors.toList());
         List<String> tags = tagFields.stream().map(TextField::getText).collect(Collectors.toList());
