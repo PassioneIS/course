@@ -7,6 +7,7 @@ import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -14,7 +15,9 @@ import javafx.scene.control.DatePicker;
 import javafx.scene.control.Label;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import models.CalendarRecipe;
@@ -24,6 +27,7 @@ import services.CalendarService;
 import services.ShoppingListService;
 
 import java.io.IOException;
+import java.time.DayOfWeek;
 import java.time.LocalDate;
 import java.time.YearMonth;
 import java.time.format.DateTimeFormatter;
@@ -93,9 +97,35 @@ public class CalendarController {
                 VBox dayCell = new VBox(10);
                 dayCell.setPadding(new Insets(5));
                 dayCell.setStyle("-fx-border-color: #e0e0e0; -fx-border-width: 0 0 1 1;");
+                GridPane.setMargin(dayCell, new Insets(5));
+                dayCell.setAlignment(Pos.TOP_LEFT);
+                dayCell.setPrefSize(120, 100);
+                dayCell.setStyle(
+                        "-fx-border-color: #ccc;" +
+                                "-fx-background-color: #fdfdfd;" +
+                                "-fx-border-width: 1;" +
+                                "-fx-background-radius: 6;" +
+                                "-fx-padding: 10;" +
+                                "-fx-border-radius: 5;"
+                );
+
+                if(day < LocalDate.now().getDayOfMonth()){
+                    dayCell.setStyle(dayCell.getStyle() + "-fx-background-color: #d5d5d5;");
+                }
 
                 Label dayLabel = new Label(String.valueOf(day));
+                dayLabel.setFont(Font.font("System", FontWeight.BOLD, 18));
+                dayLabel.setTextFill(Color.DARKSLATEGRAY);
                 dayLabel.setFont(Font.font("System Bold", 20));
+
+                //hoy
+                if (LocalDate.now().getDayOfMonth() == day &&
+                    LocalDate.now().getMonth() == currentYearMonth.getMonth() &&
+                    LocalDate.now().getYear() == currentYearMonth.getYear()) {
+                    dayCell.setStyle(dayCell.getStyle() + "-fx-background-color: #a9e6e8;");
+                    dayLabel.setText(dayLabel.getText() + " - Hoy");
+                }
+
                 dayCell.getChildren().add(dayLabel);
 
                 if (recipesByDay.containsKey(day)) {
@@ -103,13 +133,24 @@ public class CalendarController {
                         Label recipeLabel = new Label(recipeName);
                         recipeLabel.setFont(Font.font("System Bold", 20));
                         recipeLabel.setWrapText(true);
+
+                        recipeLabel.setFont(Font.font("System", FontWeight.NORMAL, 14));
+                        recipeLabel.setTextFill(Color.DARKGREEN);
+                        recipeLabel.setStyle(
+                                "-fx-border-color: #cccccc;" +
+                                        "-fx-border-width: 1;" +
+                                        "-fx-background-color: #f9f9f9;" +
+                                        "-fx-padding: 1 2 1 2;" +
+                                        "-fx-background-radius: 5;" +
+                                        "-fx-border-radius: 5;"
+                        );
+
                         dayCell.getChildren().add(recipeLabel);
                     }
                 }
 
                 final int currentDay = day;
                 dayCell.setOnMouseClicked(event -> handleDayClick(currentDay));
-
                 calendarGrid.add(dayCell, col, row);
                 day++;
             }

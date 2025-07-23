@@ -1,5 +1,6 @@
 package services;
 
+import javafx.stage.FileChooser;
 import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
@@ -19,6 +20,7 @@ import dao.impl.RecipeBookDaoImpl;
 import dao.interfaces.RecipeBookDao;
 import dao.impl.RecipeBookRecipeDaoImpl;
 
+import java.io.File;
 import java.util.List;
 
 import java.io.IOException;
@@ -45,6 +47,14 @@ public class PDFService {
 
         try (PDDocument document = new PDDocument()) {
 
+
+            FileChooser fileChooser = new FileChooser();
+            fileChooser.setTitle("Guardar receta como PDF");
+            fileChooser.setInitialFileName(recipe.getName() + ".pdf");
+            fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("PDF files (*.pdf)", "*.pdf"));
+
+            File file = fileChooser.showSaveDialog(null);
+            if (file == null) return;
             PDPage page = new PDPage();
             document.addPage(page);
 
@@ -89,7 +99,7 @@ public class PDFService {
                 content.newLineAtOffset(0, -20);
             }
 
-            if(isFavorite == true){
+            if(isFavorite){
                 content.showText("La receta es favorita");
                 content.newLineAtOffset(0, -20);
             }
@@ -97,12 +107,13 @@ public class PDFService {
             content.endText();
             content.close();
 
-            document.save("Recetas/" + recipeName +".pdf");
-            System.out.println("PDF generado correctamente.");
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
+            //document.save("Recetas/" + recipeName +".pdf");
+            //System.out.println("PDF generado correctamente.");
+            document.save(file);
+            System.out.println("PDF guardado en: " + file.getAbsolutePath());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
     }
 }

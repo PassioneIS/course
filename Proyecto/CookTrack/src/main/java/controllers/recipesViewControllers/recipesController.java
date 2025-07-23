@@ -5,11 +5,14 @@ import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -56,20 +59,34 @@ public class recipesController {
     }
 
     private void listRecipes() {
-        //List<Recipe> recipesList = bookRecipeService.getAllRecipes();
         List<Recipe> recipesList = bookRecipeService.getRecipes(SessionManager.getInstance().getCurrentUser());
 
         recipesVbox.getChildren().clear();
         for (Recipe recipe : recipesList) {
-            HBox hbox = new HBox(10);
-            hbox.setStyle("-fx-background-color: #ffffff;" + "-fx-padding: 15;" + "-fx-background-radius: 8;" + "-fx-border-radius: 8;" + "-fx-border-color: #dddddd;" + "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);");
+            HBox hbox = new HBox(20);
+            hbox.setPadding(new Insets(15));
+            hbox.setAlignment(Pos.CENTER_LEFT);
+            hbox.setStyle(
+                    "-fx-background-color: #ffffff;" +
+                            "-fx-background-radius: 8;" +
+                            "-fx-border-radius: 8;" +
+                            "-fx-border-color: #dddddd;" +
+                            "-fx-effect: dropshadow(gaussian, rgba(0,0,0,0.03), 4, 0, 0, 2);"
+            );
 
+            VBox infoBox = new VBox(5);
+            infoBox.setPrefWidth(400); // Fijo o proporcional para alinear
             Label nameLabel = new Label("Nombre: " + recipe.getName());
             nameLabel.setStyle("-fx-font-size: 16; -fx-font-weight: bold; -fx-text-fill: #333333;");
+
             Label prepTimeLabel = new Label("Tiempo de preparación: " + recipe.getPreptime());
             prepTimeLabel.setStyle("-fx-text-fill: #666666; -fx-font-size: 13;");
 
-            HBox buttonsBox = new HBox(5);
+            infoBox.getChildren().addAll(nameLabel, prepTimeLabel);
+
+
+            HBox buttonsBox = new HBox(10);
+            buttonsBox.setAlignment(Pos.CENTER_RIGHT);
             if (selectionMode) {
                 Button selectButton = new Button("Seleccionar");
                 selectButton.setOnAction(e -> handleRecipeAction(recipe, e));
@@ -89,7 +106,8 @@ public class recipesController {
                 buttonsBox.getChildren().addAll(seeMoreButton, modifyButton, exportButton);
             }
 
-            hbox.getChildren().addAll(nameLabel, prepTimeLabel, buttonsBox);
+            HBox.setHgrow(infoBox, Priority.ALWAYS);
+            hbox.getChildren().addAll(infoBox, buttonsBox);
             recipesVbox.getChildren().add(hbox);
         }
     }
